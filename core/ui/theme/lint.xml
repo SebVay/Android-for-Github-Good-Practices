@@ -1,0 +1,5 @@
+<lint>
+    <issue id="ComposeCompositionLocalUsage">
+        <option name="allowed-composition-locals" value="LocalColors" />
+    </issue>
+</lint>

@@ -1,0 +1,31 @@
+query TrendingRepositories {
+    search(query: "created:>2025-07-01 sort:stars", type: REPOSITORY, first: 10) {
+        nodes {
+            ... on Repository {
+                name
+                description
+                owner {
+                    avatarUrl
+                    login
+                }
+                stargazerCount
+                forkCount
+                issues { totalCount }
+                pullRequests { totalCount }
+                url
+                homepageUrl
+                openGraphImageUrl
+                languages(first: 10) {
+                    edges {
+                        size
+                        node {
+                            name
+                            id
+                            color
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
