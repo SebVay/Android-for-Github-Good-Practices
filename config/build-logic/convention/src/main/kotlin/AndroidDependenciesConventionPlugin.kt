@@ -10,9 +10,9 @@ import org.gradle.kotlin.dsl.getByType
  *
  * Inspired by:
  * - [Home Assistant repo](https://github.com/home-assistant/android/tree/main/build-logic)
- * - [An obscure yet interesting Medium article](https://medium.com/@sridhar-sp/simplify-your-android-builds-a-guide-to-convention-plugins-b9fea8c5e117)
+ * - [An interesting Medium article](https://medium.com/@sridhar-sp/simplify-your-android-builds-a-guide-to-convention-plugins-b9fea8c5e117)
  */
-class AndroidCommonDependenciesConventionPlugin : Plugin<Project> {
+class AndroidDependenciesConventionPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         with(target) {

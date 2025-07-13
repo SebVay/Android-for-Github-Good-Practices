@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
-
-    // All the configuration & magic is included in this convention plugin
-    alias(libs.plugins.common.ui.convention)
+    alias(libs.plugins.convention.ui.module)
 }
 
 android {

@@ -94,7 +94,8 @@ gradle-version = { id = "com.github.ben-manes.versions", version.ref = "gradleVe
 
 
 # Those are the Convention Plugins defined by the project in `/tools/build-logic:convention`.
-common-config-convention = { id = "githubapp.common.config.convention" }
-common-dependencies-convention = { id = "githubapp.common.dependencies.convention" }
-common-compose-convention = { id = "githubapp.common.compose.convention" }
-common-ui-convention = { id = "githubapp.common.ui.convention" }
+convention-config = { id = "githubapp.convention.config" }
+convention-dependencies = { id = "githubapp.convention.dependencies" }
+convention-compose = { id = "githubapp.convention.compose" }
+convention-ui-module = { id = "githubapp.convention.ui.module" }
+convention-code-quality = { id = "githubapp.convention.code.quality"}

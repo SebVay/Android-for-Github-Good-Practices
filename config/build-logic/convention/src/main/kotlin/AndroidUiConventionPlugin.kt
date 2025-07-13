@@ -10,14 +10,14 @@ import org.gradle.kotlin.dsl.dependencies
  *
  * Inspired by:
  * - [Home Assistant repo](https://github.com/home-assistant/android/tree/main/build-logic)
- * - [An obscure yet interesting Medium article](https://medium.com/@sridhar-sp/simplify-your-android-builds-a-guide-to-convention-plugins-b9fea8c5e117)
+ * - [An interesting Medium article](https://medium.com/@sridhar-sp/simplify-your-android-builds-a-guide-to-convention-plugins-b9fea8c5e117)
  */
-class AndroidCommonUiConventionPlugin : Plugin<Project> {
+class AndroidUiConventionPlugin : Plugin<Project> {
 
     val pluginsToApply = listOf(
-        AndroidCommonConfigConventionPlugin(),
-        AndroidCommonComposeConventionPlugin(),
-        AndroidCommonDependenciesConventionPlugin(),
+        AndroidConfigConventionPlugin(),
+        AndroidComposeConventionPlugin(),
+        AndroidDependenciesConventionPlugin(),
     )
 
     override fun apply(target: Project) {
