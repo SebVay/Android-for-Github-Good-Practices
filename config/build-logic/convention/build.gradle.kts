@@ -18,24 +18,28 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        register("androidCommonConfig") {
-            id = libs.plugins.common.config.convention.get().pluginId
-            implementationClass = "AndroidCommonConfigConventionPlugin"
+        register("androidConfigPlugin") {
+            id = libs.plugins.convention.config.get().pluginId
+            implementationClass = "AndroidConfigConventionPlugin"
         }
 
-        register("androidCommonDependencies") {
-            id = libs.plugins.common.dependencies.convention.get().pluginId
-            implementationClass = "AndroidCommonDependenciesConventionPlugin"
+        register("androidDependenciesPlugin") {
+            id = libs.plugins.convention.dependencies.get().pluginId
+            implementationClass = "AndroidDependenciesConventionPlugin"
         }
 
-        register("androidCommonCompose") {
-            id = libs.plugins.common.compose.convention.get().pluginId
-            implementationClass = "AndroidCommonComposeConventionPlugin"
+        register("androidComposePlugin") {
+            id = libs.plugins.convention.compose.get().pluginId
+            implementationClass = "AndroidComposeConventionPlugin"
         }
 
-        register("androidCommonUi") {
-            id = libs.plugins.common.ui.convention.get().pluginId
-            implementationClass = "AndroidCommonUiConventionPlugin"
+        register("androidUiPlugin") {
+            id = libs.plugins.convention.ui.module.get().pluginId
+            implementationClass = "AndroidUiConventionPlugin"
+        }
+        register("codeQualityPlugin") {
+            id = libs.plugins.convention.code.quality.get().pluginId
+            implementationClass = "CodeQualityConventionPlugin"
         }
     }
 }

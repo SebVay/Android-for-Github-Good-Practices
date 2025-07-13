@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.common.config.convention)
-    alias(libs.plugins.common.dependencies.convention)
+    alias(libs.plugins.convention.config)
+    alias(libs.plugins.convention.dependencies)
     alias(libs.plugins.apollo)
 }
 
@@ -29,4 +29,12 @@ dependencies {
     implementation(libs.apollo.runtime)
 }
 
-fun Project.githubToken(): String = findProperty("github.token") as String
+private fun Project.githubToken(): String {
+    return (findProperty("github.token") as? String)
+        .orEmpty()
+        .also {
+            if (it.isEmpty()) {
+                println("GITHUB_TOKEN NOT FOUND")
+            }
+        }
+}

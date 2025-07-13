@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.common.config.convention)
-    alias(libs.plugins.common.compose.convention)
-    alias(libs.plugins.common.dependencies.convention)
+    alias(libs.plugins.convention.config)
+    alias(libs.plugins.convention.compose)
+    alias(libs.plugins.convention.dependencies)
 }
 
 android {

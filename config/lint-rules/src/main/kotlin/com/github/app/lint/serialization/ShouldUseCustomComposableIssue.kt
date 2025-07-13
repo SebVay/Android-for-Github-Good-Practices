@@ -19,10 +19,10 @@ object ShouldUseCustomComposableIssue {
         briefDescription = "This class should not use any $MATERIAL3 components.",
         explanation =
             "To ensure consistency, maintainability, and reusability, it's a common practice to use our custom `@Composable` components " +
-                    "instead of directly using `$MATERIAL3` components. " +
-                    "This approach allows for centralized styling, easier updates, and better adherence to the application's design system.\n" +
-                    "The `@Composable` components that should be used instead are located in the core:ui:component module.\n" +
-                    "Only the Scaffold `@Composable` is authorized to be used directly in the project.",
+                "instead of directly using `$MATERIAL3` components. " +
+                "This approach allows for centralized styling, easier updates, and better adherence to the application's design system.\n" +
+                "The `@Composable` components that should be used instead are located in the core:ui:component module.\n" +
+                "Only the Scaffold `@Composable` is authorized to be used directly in the project.",
         category = Category.CORRECTNESS,
         priority = 6,
         severity = Severity.WARNING,
@@ -66,8 +66,8 @@ object ShouldUseCustomComposableIssue {
                 context.report(
                     issue = ISSUE,
                     location = context.getLocation(node),
-                    message = "Please do not use direct reference to `androidx.compose.material3` " +
-                            "and use instead `@Composable` from `core:ui:component`."
+                    message = "Do not use direct reference to `androidx.compose.material3`." +
+                        "Instead create a `@Composable` App component in `core:ui:component`."
                 )
             }
         }
