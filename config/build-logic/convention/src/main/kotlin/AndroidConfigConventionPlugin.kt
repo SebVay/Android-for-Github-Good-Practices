@@ -1,8 +1,6 @@
-import com.diffplug.gradle.spotless.BaseKotlinExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.getByType
@@ -64,21 +62,6 @@ class AndroidConfigConventionPlugin : Plugin<Project> {
                     lintConfig = file("lint.xml")
                 }
             }
-
-            /**
-             * This task is used to run all the code quality checks in one go.
-             *
-             * It depends on Spotless, Lint and Detekt tasks.
-             * It can be run by executing `./gradlew codeQualityCheck`
-             */
-/*
-            tasks.register("codeQualityCheck") {
-                group = "verification"
-                description = "Runs Spotless, Lint and Detekt"
-
-                dependsOn("spotlessCheck", "detekt", "lint")
-            }
-*/
         }
     }
 }
