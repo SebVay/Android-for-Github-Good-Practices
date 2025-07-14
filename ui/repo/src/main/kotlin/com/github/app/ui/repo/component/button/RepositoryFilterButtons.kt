@@ -7,7 +7,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.compose.dropUnlessResumed
 import com.github.app.ui.repo.screen.FilterButtonViewState
 import kotlinx.collections.immutable.ImmutableList
 
@@ -15,7 +14,7 @@ import kotlinx.collections.immutable.ImmutableList
 fun RepositoryFilterButtons(
     filterButtons: ImmutableList<FilterButtonViewState>,
     modifier: Modifier = Modifier,
-    onFilterButtonClick: (FilterButtonViewState) -> Unit
+    onFilterButtonClick: (FilterButtonViewState) -> Unit,
 ) {
     SingleChoiceSegmentedButtonRow(modifier) {
         filterButtons.forEachIndexed { index, filterButton ->

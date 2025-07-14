@@ -3,9 +3,7 @@ package com.github.app.ui.repo.screen
 import com.github.app.core.viewmodel.AppViewModel
 import com.github.app.domain.repo.usecase.GetTrendingRepositoriesUseCase
 import com.github.app.ui.repo.mapper.RepositoriesUiMapper
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 

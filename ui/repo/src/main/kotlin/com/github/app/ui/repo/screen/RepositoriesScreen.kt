@@ -2,7 +2,6 @@ package com.github.app.ui.repo.screen
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -105,17 +104,15 @@ private fun Content(
         }
 
         val repositories = viewState.value.repositories
-        val animationSpec = tween<Float>(220, delayMillis = 90)
 
         RepositoriesContent(
             modifier = Modifier
                 .padding(innerPadding)
                 .padding(top = GithubAppDimens.Padding.UNIT),
             repositories = repositories,
-            animationSpec = animationSpec,
             viewState = viewState,
             onFilterButtonClick = onFilterButtonClick,
-            onClickRepository = onClickRepository
+            onClickRepository = onClickRepository,
         )
     }
 }
@@ -123,23 +120,22 @@ private fun Content(
 @Composable
 private fun RepositoriesContent(
     repositories: ImmutableList<RepositoryViewState>,
-    animationSpec: TweenSpec<Float>,
     viewState: State<TrendingRepositoriesScreenViewState>,
     onFilterButtonClick: (FilterButtonViewState) -> Unit,
     modifier: Modifier = Modifier,
-    onClickRepository: (RepositoryViewState) -> Unit
+    onClickRepository: (RepositoryViewState) -> Unit,
 ) {
     AnimatedVisibility(
         modifier = modifier,
         visible = repositories.isNotEmpty(),
-        enter = fadeIn(animationSpec) + scaleIn(animationSpec, 0.95f)
+        enter = fadeIn(tween()) + scaleIn(tween(), INITIAL_SCALE_ANIM),
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             AppTitleLarge(stringResource(R.string.trending_repositories))
 
             RepositoryFilterButtons(
                 filterButtons = viewState.value.filterButtons,
-                onFilterButtonClick = onFilterButtonClick
+                onFilterButtonClick = onFilterButtonClick,
             )
 
             LazyVerticalGrid(
@@ -241,7 +237,7 @@ internal fun RepositoriesScreenPreviewSuccessState() {
                                 pullRequestsCount = 34,
                                 authorName = "author",
                             ),
-                        )
+                        ),
                     ),
             ),
             onClickRepository = {
@@ -263,7 +259,7 @@ internal fun RepositoriesScreenPreviewErrorState() {
                 TrendingRepositoriesScreenViewState(
                     currentState = UiState.Error,
                     repositories = persistentListOf(),
-                    filterButtons = persistentListOf()
+                    filterButtons = persistentListOf(),
                 ),
             ),
             onClickRepository = {
@@ -285,7 +281,7 @@ internal fun RepositoriesScreenPreviewEmptyState() {
                 TrendingRepositoriesScreenViewState(
                     currentState = UiState.Empty,
                     repositories = persistentListOf(),
-                    filterButtons = persistentListOf()
+                    filterButtons = persistentListOf(),
                 ),
             ),
             onClickRepository = {
@@ -298,4 +294,5 @@ internal fun RepositoriesScreenPreviewEmptyState() {
     }
 }
 
-private const val ROUTE = "home_screen"
+private const val ROUTE = "repositories_screen"
+private const val INITIAL_SCALE_ANIM = 0.95f

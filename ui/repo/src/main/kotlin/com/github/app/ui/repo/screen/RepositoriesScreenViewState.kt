@@ -11,7 +11,7 @@ import kotlinx.collections.immutable.toImmutableList
 data class TrendingRepositoriesScreenViewState(
     val currentState: UiState<Unit>,
     val repositories: ImmutableList<RepositoryViewState>,
-    val filterButtons: ImmutableList<FilterButtonViewState>
+    val filterButtons: ImmutableList<FilterButtonViewState>,
 ) : AppViewState {
 
     fun withRequestLoading(): TrendingRepositoriesScreenViewState {
@@ -21,7 +21,7 @@ data class TrendingRepositoriesScreenViewState(
     fun withRepositories(repositories: List<RepositoryViewState>): TrendingRepositoriesScreenViewState {
         return copy(
             currentState = UiState.Success(Unit),
-            repositories = repositories.toImmutableList()
+            repositories = repositories.toImmutableList(),
         )
     }
 
@@ -43,17 +43,17 @@ data class TrendingRepositoriesScreenViewState(
             filterButtons = persistentListOf(
                 FilterButtonViewState(
                     textRes = R.string.filter_button_last_yesterday,
-                    isSelected = true
+                    isSelected = true,
                 ),
                 FilterButtonViewState(
                     textRes = R.string.filter_button_last_week,
-                    isSelected = false
+                    isSelected = false,
                 ),
                 FilterButtonViewState(
                     textRes = R.string.filter_button_last_month,
-                    isSelected = false
-                )
-            )
+                    isSelected = false,
+                ),
+            ),
         )
     }
 }
