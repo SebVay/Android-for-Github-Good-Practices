@@ -1,4 +1,4 @@
-package com.github.app.ui.repo.component
+package com.github.app.ui.repo.component.card
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,15 +11,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.lifecycle.compose.dropUnlessResumed
 import coil3.compose.AsyncImage
 import com.github.app.core.ui.component.MultiDevicePreviews
 import com.github.app.core.ui.component.card.AppCard
-import com.github.app.core.ui.component.text.BABodyLarge
-import com.github.app.core.ui.component.text.BATitleLarge
+import com.github.app.core.ui.component.text.AppBodyLarge
+import com.github.app.core.ui.component.text.AppTitleLarge
 import com.github.app.core.ui.theme.GithubAppDimens
 import com.github.app.core.ui.theme.LocalColors
 import com.github.app.ui.repo.screen.RepositoryViewState
+import kotlinx.collections.immutable.persistentListOf
 
 /**
  * A Composable function that displays a card for a repository.
@@ -40,44 +40,41 @@ fun RepositoryCard(
 ) {
     AppCard(
         modifier = modifier,
-        onClick = dropUnlessResumed { onClickRepository() },
+        onClick = onClickRepository,
     ) {
         Column(
             modifier = Modifier
                 .padding(GithubAppDimens.Padding.UNIT),
         ) {
-            Row {
-                Column(
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                val fullName = repository.authorName + "/" + repository.name
+
+                AppTitleLarge(
                     modifier = Modifier
                         .weight(1F)
                         .padding(vertical = GithubAppDimens.Padding.UNIT)
                         .padding(end = GithubAppDimens.Padding.DOUBLE),
-                ) {
-                    BATitleLarge(
-                        text = repository.repositoryName,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 2,
-                    )
-
-                    BABodyLarge(
-                        text = repository.description,
-                        color = LocalColors.current.onSurfaceVariant,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 2,
-                    )
-                }
+                    text = fullName,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 2,
+                    textsToBold = persistentListOf(repository.name),
+                )
 
                 Spacer(Modifier.size(GithubAppDimens.Padding.UNIT))
 
                 AsyncImage(
                     modifier = Modifier
-                        .align(Alignment.CenterVertically)
                         .size(GithubAppDimens.Icon.MediumLarge)
                         .clip(RoundedCornerShape(GithubAppDimens.CornerRadius.Icon)),
-                    contentDescription = repository.repositoryName,
+                    contentDescription = repository.name,
                     model = repository.imageUrl,
                 )
             }
+            AppBodyLarge(
+                modifier = Modifier.padding(top = GithubAppDimens.Padding.UNIT),
+                text = repository.description,
+                color = LocalColors.current.onSurfaceVariant,
+            )
         }
     }
 }
@@ -88,9 +85,9 @@ private fun PreviewRepositoryCard() {
     RepositoryCard(
         onClickRepository = {},
         repository = RepositoryViewState(
-            repositoryName = "Sample Repository",
+            name = "Sample Repository",
             description = "This is a sample repository description.",
-            repositoryId = "",
+            id = "",
             imageUrl = "",
             stargazerCount = 12,
             forkCount = 5,

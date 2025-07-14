@@ -1,10 +1,11 @@
 package com.github.app.ui.repo.screen
 
-import androidx.lifecycle.viewModelScope
 import com.github.app.core.viewmodel.AppViewModel
 import com.github.app.domain.repo.usecase.GetTrendingRepositoriesUseCase
 import com.github.app.ui.repo.mapper.RepositoriesUiMapper
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
 internal class RepositoriesScreenViewModel(
     initialState: TrendingRepositoriesScreenViewState,
@@ -18,25 +19,32 @@ internal class RepositoriesScreenViewModel(
     }
 
     private fun launchRequest() {
-        viewModelScope.launch {
-            updateViewState { withRequestLoading() }
+        viewStateFlow
+            .map { it.filterButtons }
+            .distinctUntilChanged()
+            .onEach { updateViewState { withRequestLoading() } }
+            .map { filters -> filters.find(FilterButtonViewState::isSelected) }
+            .map { filter -> getTrendingRepositories().map(repositoriesMapper) }
+            .collectCatching { result ->
+                result.onSuccess { repositories ->
+                    updateViewState {
+                        withRepositories(repositories)
+                    }
+                }
 
-            val result = getTrendingRepositories()
-                .map(repositoriesMapper)
-
-            result.onSuccess { repositories ->
-                updateViewState {
-                    withRepositories(repositories)
+                result.onFailure {
+                    updateViewState { withError() }
                 }
             }
-
-            result.onFailure {
-                updateViewState { withError() }
-            }
-        }
     }
 
     override fun onClickRepository(repositoryViewState: RepositoryViewState) {
         navigationController.navigateTo(RepositoriesScreen2)
+    }
+
+    override fun onClickFilterButton(filterButtonViewState: FilterButtonViewState) {
+        updateViewState {
+            withFilterSelected(filterButtonViewState)
+        }
     }
 }

@@ -21,8 +21,8 @@ object ShouldUseCustomComposableIssue {
             "To ensure consistency, maintainability, and reusability, it's a common practice to use our custom `@Composable` components " +
                 "instead of directly using `$MATERIAL3` components. " +
                 "This approach allows for centralized styling, easier updates, and better adherence to the application's design system.\n" +
-                "The `@Composable` components that should be used instead are located in the core:ui:component module.\n" +
-                "Only the Scaffold `@Composable` is authorized to be used directly in the project.",
+                "The `@Composable` components that should be used instead are located in the `core:ui:component` module or in a `component` package.\n" +
+                "The Scaffold `@Composable` is authorized to be used directly in the project.",
         category = Category.CORRECTNESS,
         priority = 6,
         severity = Severity.WARNING,
@@ -48,9 +48,17 @@ object ShouldUseCustomComposableIssue {
     ) : UElementHandler() {
 
         override fun visitFile(node: UFile) {
-            if (ALLOWED_MODULES.contains(context.project.name).not()) {
+            if (!isModuleAllowed() && !node.isPackageAllowed()) {
                 node.imports.forEach(::visitImport)
             }
+        }
+
+        private fun UFile.isPackageAllowed(): Boolean {
+            return packageName.contains(".component")
+        }
+
+        private fun isModuleAllowed(): Boolean {
+            return ALLOWED_MODULES.contains(context.project.name)
         }
 
         /**

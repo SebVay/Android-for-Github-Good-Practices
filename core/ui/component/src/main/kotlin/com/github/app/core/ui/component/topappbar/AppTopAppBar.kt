@@ -6,18 +6,18 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.github.app.core.ui.component.text.BATitleLarge
+import com.github.app.core.ui.component.text.AppTitleLarge
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BATopAppBar(
+fun AppTopAppBar(
     title: String,
     modifier: Modifier = Modifier,
     containerColor: Color = Color.Unspecified,
 ) {
     TopAppBar(
         modifier = modifier,
-        title = { BATitleLarge(title) },
+        title = { AppTitleLarge(title) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = containerColor,
         ),

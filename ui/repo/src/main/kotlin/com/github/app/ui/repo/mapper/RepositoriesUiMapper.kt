@@ -12,9 +12,9 @@ interface RepositoriesUiMapper : (List<Repository>) -> List<RepositoryViewState>
 internal class RepositoriesUiMapperImpl : RepositoriesUiMapper {
     override fun invoke(repositories: List<Repository>): List<RepositoryViewState> = repositories.map { repository ->
         RepositoryViewState(
-            repositoryId = "",
+            id = "",
             imageUrl = repository.ownerAvatarUrl,
-            repositoryName = repository.name,
+            name = repository.name,
             description = repository.description,
             stargazerCount = repository.stargazerCount,
             forkCount = repository.forkCount,
