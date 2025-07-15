@@ -1,5 +1,5 @@
-query TrendingRepositories {
-    search(query: "created:>2025-07-01 sort:stars", type: REPOSITORY, first: 10) {
+query Repositories($query : String!) {
+    search(query: $query, type: REPOSITORY, first: 20) {
         nodes {
             ... on Repository {
                 name

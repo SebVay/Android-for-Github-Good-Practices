@@ -1,14 +1,14 @@
 package com.github.app.data.mapper
 
-import com.github.app.data.RepoDataSource
+import com.github.app.data.RepositoriesDataSource
 import com.github.app.domain.contract.GetTrendingRepositories
 import com.github.app.domain.contract.Language
 import com.github.app.domain.contract.Repository
 
 internal class GetTrendingRepositoriesImpl(
-    private val dataSource: RepoDataSource,
+    private val dataSource: RepositoriesDataSource,
 ) : GetTrendingRepositories {
-    override suspend fun invoke(): List<Repository> = dataSource.getTrendingRepo().map { repo ->
+    override suspend fun invoke(query: String): List<Repository> = dataSource.getRepositories(query).map { repo ->
         Repository(
             name = repo.name,
             description = repo.description,
