@@ -2,9 +2,12 @@ package com.github.app.ui.repo.screen
 
 import com.github.app.core.viewmodel.AppViewModel
 import com.github.app.domain.repo.usecase.GetTrendingRepositoriesUseCase
+import com.github.app.domain.repo.usecase.TimePeriod
 import com.github.app.ui.repo.mapper.RepositoriesUiMapper
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
 
 internal class RepositoriesScreenViewModel(
@@ -23,8 +26,8 @@ internal class RepositoriesScreenViewModel(
             .map { it.filterButtons }
             .distinctUntilChanged()
             .onEach { updateViewState { withRequestLoading() } }
-            .map { filters -> filters.find(FilterButtonViewState::isSelected) }
-            .map { filter -> getTrendingRepositories().map(repositoriesMapper) }
+            .mapNotNull { filters -> filters.findSelectedFilter().toDomain() }
+            .map { filterType -> getTrendingRepositories(filterType).map(repositoriesMapper) }
             .collectCatching { result ->
                 result.onSuccess { repositories ->
                     updateViewState {
@@ -38,6 +41,10 @@ internal class RepositoriesScreenViewModel(
             }
     }
 
+    private fun ImmutableList<FilterButtonViewState>.findSelectedFilter(): FilterType? {
+        return find(FilterButtonViewState::isSelected)?.filterType
+    }
+
     override fun onClickRepository(repositoryViewState: RepositoryViewState) {
         navigationController.navigateTo(RepositoriesScreen2)
     }
@@ -47,4 +54,10 @@ internal class RepositoriesScreenViewModel(
             withFilterSelected(filterButtonViewState)
         }
     }
+}
+
+private fun FilterType?.toDomain() = when (this) {
+    null, FilterType.YESTERDAY -> TimePeriod.YESTERDAY
+    FilterType.LAST_WEEK -> TimePeriod.LAST_WEEK
+    FilterType.LAST_MONTH -> TimePeriod.LAST_MONTH
 }

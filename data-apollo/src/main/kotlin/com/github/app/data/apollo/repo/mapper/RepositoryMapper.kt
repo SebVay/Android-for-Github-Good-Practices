@@ -1,13 +1,13 @@
 package com.github.app.data.apollo.repo.mapper
 
-import com.github.app.data.apollo.TrendingRepositoriesQuery.OnRepository
+import com.github.app.data.apollo.RepositoriesQuery.OnRepository
 import com.github.app.data.apollo.repo.entity.LanguageEntity
 import com.github.app.data.apollo.repo.entity.OwnerEntity
 import com.github.app.data.apollo.repo.entity.RepoEntity
 
-interface TrendingRepoMapper : (OnRepository) -> RepoEntity
+internal interface RepositoryMapper : (OnRepository) -> RepoEntity
 
-internal class TrendingRepoMapperImpl : TrendingRepoMapper {
+internal class RepositoryMapperImpl : RepositoryMapper {
     override fun invoke(repository: OnRepository): RepoEntity = with(repository) {
         RepoEntity(
             name = name,

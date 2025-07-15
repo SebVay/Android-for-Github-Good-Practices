@@ -1,6 +1,8 @@
 package com.github.app.domain.contract
 
-fun interface GetTrendingRepositories : suspend () -> List<Repository>
+fun interface GetTrendingRepositories {
+    suspend operator fun invoke(query: String): List<Repository>
+}
 
 data class Repository(
     val name: String,

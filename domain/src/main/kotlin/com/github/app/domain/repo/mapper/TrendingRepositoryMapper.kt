@@ -1,4 +1,4 @@
-package com.github.app.domain.repo.usecase.mapper
+package com.github.app.domain.repo.mapper
 
 import com.github.app.domain.repo.model.Language
 import com.github.app.domain.repo.model.Repository
