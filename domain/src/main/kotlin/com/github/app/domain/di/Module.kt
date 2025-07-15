@@ -8,7 +8,6 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 
 val domainModules = module {
     singleOf(::TrendingRepositoryMapperImpl) bind TrendingRepositoryMapper::class

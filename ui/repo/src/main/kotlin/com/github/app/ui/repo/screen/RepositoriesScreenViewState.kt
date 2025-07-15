@@ -9,7 +9,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.Serializable
 
 data class TrendingRepositoriesScreenViewState(
     val currentState: UiState<Unit>,

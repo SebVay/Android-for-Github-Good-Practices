@@ -143,7 +143,7 @@ private fun RepositoriesContent(
             item(span = { GridItemSpan(maxLineSpan) }) {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     AppTitleLarge(stringResource(R.string.trending_repositories))
 
@@ -160,8 +160,8 @@ private fun RepositoriesContent(
                         .animateItem(
                             placementSpec = spring(
                                 stiffness = Spring.StiffnessLow,
-                                dampingRatio = Spring.DampingRatioMediumBouncy
-                            )
+                                dampingRatio = Spring.DampingRatioMediumBouncy,
+                            ),
                         )
                         .fillMaxHeight()
                         .fillMaxSize(),

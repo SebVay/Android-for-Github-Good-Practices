@@ -67,5 +67,7 @@ internal class GetTrendingRepositoriesUseCaseImpl(
  * Represents the time period for which trending repositories are fetched.
  */
 enum class TimePeriod {
-    YESTERDAY, LAST_WEEK, LAST_MONTH
+    YESTERDAY,
+    LAST_WEEK,
+    LAST_MONTH,
 }

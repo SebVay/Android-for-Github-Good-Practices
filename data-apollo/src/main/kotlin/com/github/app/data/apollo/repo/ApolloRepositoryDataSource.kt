@@ -3,8 +3,8 @@ package com.github.app.data.apollo.repo
 import com.apollographql.apollo.ApolloClient
 import com.github.app.data.apollo.RepositoriesQuery
 import com.github.app.data.apollo.ext.executeQuery
-import com.github.app.data.apollo.repo.mapper.RepositoryMapper
 import com.github.app.data.apollo.repo.entity.RepoEntity
+import com.github.app.data.apollo.repo.mapper.RepositoryMapper
 
 interface ApolloRepositoryDataSource {
     suspend fun getRepositories(query: String): List<RepoEntity>
