@@ -4,7 +4,6 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import com.github.app.core.ui.theme.Token.Neutral10
 import com.github.app.core.ui.theme.Token.Neutral100
-import com.github.app.core.ui.theme.Token.Neutral20
 import com.github.app.core.ui.theme.Token.Neutral30
 import com.github.app.core.ui.theme.Token.Neutral50
 import com.github.app.core.ui.theme.Token.Neutral70
@@ -36,7 +35,7 @@ val lightGithubAppColors = GithubAppColors(
     surface = Neutral100,
     onSurface = Neutral10,
     onSurfaceSecondary = Neutral30,
-    onSurfaceDiscrete = Neutral50
+    onSurfaceDiscrete = Neutral50,
 )
 
 val darkGithubAppColors = GithubAppColors(

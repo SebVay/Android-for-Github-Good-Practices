@@ -99,24 +99,23 @@ fun RepositoryCard(
 
 @Composable
 private fun RepositoryStats(repository: RepositoryViewState) {
-
     // FlowRow to maxLines=1 is a little niceties that will "hide" the last items if they don't fit
     FlowRow(
         modifier = Modifier.padding(top = GithubAppDimens.Padding.QUAD),
         horizontalArrangement = Arrangement.spacedBy(GithubAppDimens.Padding.UNIT),
-        maxLines = 1
+        maxLines = 1,
     ) {
         Stat(
             stat = repository.stargazerCount.toString(),
             statLabel = stringResource(R.string.repository_stars),
-            painter = rememberVectorPainter(RepositoryIcons.Star)
+            painter = rememberVectorPainter(RepositoryIcons.Star),
         )
 
         if (repository.issuesCount > 0) {
             Stat(
                 stat = repository.issuesCount.toString(),
                 statLabel = stringResource(R.string.repository_issues),
-                painter = rememberVectorPainter(RepositoryIcons.Error)
+                painter = rememberVectorPainter(RepositoryIcons.Error),
             )
         }
 
@@ -124,7 +123,7 @@ private fun RepositoryStats(repository: RepositoryViewState) {
             Stat(
                 stat = repository.forkCount.toString(),
                 statLabel = stringResource(R.string.repository_forks),
-                painter = rememberVectorPainter(RepositoryIcons.Fork)
+                painter = rememberVectorPainter(RepositoryIcons.Fork),
             )
         }
 
@@ -132,7 +131,7 @@ private fun RepositoryStats(repository: RepositoryViewState) {
             Stat(
                 stat = repository.pullRequestsCount.toString(),
                 statLabel = stringResource(R.string.repository_pull_requests),
-                painter = rememberVectorPainter(RepositoryIcons.PullRequest)
+                painter = rememberVectorPainter(RepositoryIcons.PullRequest),
             )
         }
 
@@ -140,7 +139,7 @@ private fun RepositoryStats(repository: RepositoryViewState) {
             Stat(
                 stat = repository.discussionsCount.toString(),
                 statLabel = stringResource(R.string.repository_discussions),
-                painter = rememberVectorPainter(RepositoryIcons.Discussion)
+                painter = rememberVectorPainter(RepositoryIcons.Discussion),
             )
         }
     }
@@ -173,12 +172,12 @@ private fun Stat(
             Spacer(
                 Modifier
                     .padding(start = GithubAppDimens.Padding.UNIT)
-                    .size(GithubAppDimens.Icon.SmallMedium)
+                    .size(GithubAppDimens.Icon.SmallMedium),
             )
 
             AppBodyMedium(
                 text = statLabel,
-                color = LocalColors.current.onSurfaceSecondary
+                color = LocalColors.current.onSurfaceSecondary,
             )
         }
     }

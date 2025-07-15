@@ -19,13 +19,20 @@ import com.github.app.ui.repo.icon.RepositoryIcons
 
 val RepositoryIcons.Fork: ImageVector by lazy {
     Builder(
-        name = "Fork", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-        viewportWidth = 960.0f, viewportHeight = 960.0f
+        name = "Fork",
+        defaultWidth = 24.0.dp,
+        defaultHeight = 24.0.dp,
+        viewportWidth = 960.0f,
+        viewportHeight = 960.0f,
     ).apply {
         path(
-            fill = SolidColor(Color(0xFFe3e3e3)), stroke = null, strokeLineWidth = 0.0f,
-            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-            pathFillType = NonZero
+            fill = SolidColor(Color(0xFFe3e3e3)),
+            stroke = null,
+            strokeLineWidth = 0.0f,
+            strokeLineCap = Butt,
+            strokeLineJoin = Miter,
+            strokeLineMiter = 4.0f,
+            pathFillType = NonZero,
         ) {
             moveTo(466.0f, 814.0f)
             verticalLineToRelative(-119.0f)

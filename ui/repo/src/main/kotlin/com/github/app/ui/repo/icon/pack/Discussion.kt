@@ -19,13 +19,20 @@ import com.github.app.ui.repo.icon.RepositoryIcons
 
 val RepositoryIcons.Discussion: ImageVector by lazy {
     Builder(
-        name = "Discussion", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-        viewportWidth = 960.0f, viewportHeight = 960.0f
+        name = "Discussion",
+        defaultWidth = 24.0.dp,
+        defaultHeight = 24.0.dp,
+        viewportWidth = 960.0f,
+        viewportHeight = 960.0f,
     ).apply {
         path(
-            fill = SolidColor(Color(0xFFe3e3e3)), stroke = null, strokeLineWidth = 0.0f,
-            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-            pathFillType = NonZero
+            fill = SolidColor(Color(0xFFe3e3e3)),
+            stroke = null,
+            strokeLineWidth = 0.0f,
+            strokeLineCap = Butt,
+            strokeLineJoin = Miter,
+            strokeLineMiter = 4.0f,
+            pathFillType = NonZero,
         ) {
             moveTo(808.0f, 668.0f)
             quadToRelative(0.0f, 20.0f, -18.5f, 27.5f)
@@ -82,7 +89,7 @@ val RepositoryIcons.Discussion: ImageVector by lazy {
 
 @Preview
 @Composable
-private fun Preview(): Unit {
+private fun Preview() {
     Box(modifier = Modifier.padding(12.dp)) {
         Image(imageVector = RepositoryIcons.Discussion, contentDescription = "")
     }

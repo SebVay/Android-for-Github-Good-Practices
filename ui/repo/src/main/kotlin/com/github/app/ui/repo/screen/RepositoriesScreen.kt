@@ -12,7 +12,6 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -223,7 +222,7 @@ internal fun RepositoriesScreenPreviewSuccessState() {
                                 issuesCount = 45,
                                 pullRequestsCount = 23,
                                 authorName = "author",
-                                discussionsCount = 12
+                                discussionsCount = 12,
                             ),
                             RepositoryViewState(
                                 id = "2",
@@ -247,7 +246,7 @@ internal fun RepositoriesScreenPreviewSuccessState() {
                                 issuesCount = 67,
                                 pullRequestsCount = 34,
                                 authorName = "author",
-                                discussionsCount = 12
+                                discussionsCount = 12,
                             ),
                         ),
                     ),
@@ -268,7 +267,7 @@ internal fun RepositoriesScreenPreviewErrorState() {
     GithubAppTheme {
         Content(
             viewState = rememberUpdatedState(
-                TrendingRepositoriesScreenViewState.initialState().withError()
+                TrendingRepositoriesScreenViewState.initialState().withError(),
             ),
             onClickRepository = {
                 // Empty
@@ -287,7 +286,7 @@ internal fun RepositoriesScreenPreviewEmptyState() {
         Content(
             viewState = rememberUpdatedState(
                 TrendingRepositoriesScreenViewState.initialState()
-                    .copy(currentState = UiState.Empty)
+                    .copy(currentState = UiState.Empty),
             ),
             onClickRepository = {
                 // Empty

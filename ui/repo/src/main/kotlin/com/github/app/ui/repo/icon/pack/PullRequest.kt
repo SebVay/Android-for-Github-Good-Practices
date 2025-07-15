@@ -20,13 +20,21 @@ import com.github.app.ui.repo.icon.RepositoryIcons
 val RepositoryIcons.PullRequest: ImageVector by lazy {
     Builder(
         name =
-            "PullRequest", defaultWidth = 24.0.dp, defaultHeight =
-            24.0.dp, viewportWidth = 960.0f, viewportHeight = 960.0f
+        "PullRequest",
+        defaultWidth = 24.0.dp,
+        defaultHeight =
+        24.0.dp,
+        viewportWidth = 960.0f,
+        viewportHeight = 960.0f,
     ).apply {
         path(
-            fill = SolidColor(Color(0xFFe3e3e3)), stroke = null, strokeLineWidth = 0.0f,
-            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-            pathFillType = NonZero
+            fill = SolidColor(Color(0xFFe3e3e3)),
+            stroke = null,
+            strokeLineWidth = 0.0f,
+            strokeLineCap = Butt,
+            strokeLineJoin = Miter,
+            strokeLineMiter = 4.0f,
+            pathFillType = NonZero,
         ) {
             moveTo(480.0f, 654.0f)
             quadToRelative(-69.0f, 0.0f, -117.0f, -45.5f)
@@ -69,7 +77,8 @@ val RepositoryIcons.PullRequest: ImageVector by lazy {
 private fun Preview() {
     Box(modifier = Modifier.padding(12.dp)) {
         Image(
-            imageVector = RepositoryIcons.PullRequest, contentDescription = ""
+            imageVector = RepositoryIcons.PullRequest,
+            contentDescription = "",
         )
     }
 }
