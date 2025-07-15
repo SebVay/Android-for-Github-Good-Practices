@@ -2,6 +2,8 @@ package com.github.app.ui.repo.screen
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -15,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Scaffold
@@ -107,8 +110,7 @@ private fun Content(
 
         RepositoriesContent(
             modifier = Modifier
-                .padding(innerPadding)
-                .padding(top = GithubAppDimens.Padding.UNIT),
+                .padding(innerPadding),
             repositories = repositories,
             viewState = viewState,
             onFilterButtonClick = onFilterButtonClick,
@@ -130,31 +132,42 @@ private fun RepositoriesContent(
         visible = repositories.isNotEmpty(),
         enter = fadeIn(tween()) + scaleIn(tween(), INITIAL_SCALE_ANIM),
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            AppTitleLarge(stringResource(R.string.trending_repositories))
+        LazyVerticalGrid(
+            modifier = Modifier
+                .fillMaxSize(),
+            columns = GridCells.Adaptive(minSize = 360.dp),
+            contentPadding = PaddingValues(GithubAppDimens.Padding.DOUBLE),
+            horizontalArrangement = Arrangement.spacedBy(GithubAppDimens.Padding.UNIT),
+            verticalArrangement = Arrangement.spacedBy(GithubAppDimens.Padding.DOUBLE),
+        ) {
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    AppTitleLarge(stringResource(R.string.trending_repositories))
 
-            RepositoryFilterButtons(
-                filterButtons = viewState.value.filterButtons,
-                onFilterButtonClick = onFilterButtonClick,
-            )
-
-            LazyVerticalGrid(
-                modifier = Modifier
-                    .fillMaxSize(),
-                columns = GridCells.Adaptive(minSize = 360.dp),
-                contentPadding = PaddingValues(GithubAppDimens.Padding.DOUBLE),
-                horizontalArrangement = Arrangement.spacedBy(GithubAppDimens.Padding.UNIT),
-                verticalArrangement = Arrangement.spacedBy(GithubAppDimens.Padding.DOUBLE),
-            ) {
-                items(repositories) { repository ->
-                    RepositoryCard(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .fillMaxSize(),
-                        onClickRepository = dropUnlessResumed { onClickRepository(repository) },
-                        repository = repository,
+                    RepositoryFilterButtons(
+                        filterButtons = viewState.value.filterButtons,
+                        onFilterButtonClick = onFilterButtonClick,
                     )
                 }
+            }
+
+            items(items = repositories) { repository ->
+                RepositoryCard(
+                    modifier = Modifier
+                        .animateItem(
+                            placementSpec = spring(
+                                stiffness = Spring.StiffnessLow,
+                                dampingRatio = Spring.DampingRatioMediumBouncy
+                            )
+                        )
+                        .fillMaxHeight()
+                        .fillMaxSize(),
+                    onClickRepository = dropUnlessResumed { onClickRepository(repository) },
+                    repository = repository,
+                )
             }
         }
     }
