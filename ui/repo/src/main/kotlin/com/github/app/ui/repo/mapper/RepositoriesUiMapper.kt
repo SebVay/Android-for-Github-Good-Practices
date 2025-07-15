@@ -20,6 +20,7 @@ internal class RepositoriesUiMapperImpl : RepositoriesUiMapper {
             forkCount = repository.forkCount,
             issuesCount = repository.issuesCount,
             pullRequestsCount = repository.pullRequestsCount,
+            discussionsCount = repository.discussionsCount,
             authorName = repository.ownerName,
         )
     }.toImmutableList()

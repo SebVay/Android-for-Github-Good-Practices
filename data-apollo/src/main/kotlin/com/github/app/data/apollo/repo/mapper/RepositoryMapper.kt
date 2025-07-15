@@ -20,6 +20,7 @@ internal class RepositoryMapperImpl : RepositoryMapper {
             forkCount = forkCount,
             issuesCount = issues.totalCount,
             pullRequestsCount = pullRequests.totalCount,
+            discussionsCount = discussions.totalCount,
             url = url.toString(),
             homepageUrl = homepageUrl.toString(),
             openGraphImageUrl = openGraphImageUrl.toString(),

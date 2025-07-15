@@ -22,6 +22,7 @@ internal class TrendingRepositoryMapperImpl : TrendingRepositoryMapper {
             forkCount = contractRepository.forkCount,
             issuesCount = contractRepository.issuesCount,
             pullRequestsCount = contractRepository.pullRequestsCount,
+            discussionsCount = contractRepository.discussionsCount,
             url = contractRepository.url,
             homepageUrl = contractRepository.homepageUrl,
             openGraphImageUrl = contractRepository.openGraphImageUrl,

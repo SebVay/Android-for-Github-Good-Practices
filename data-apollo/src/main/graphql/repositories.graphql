@@ -12,6 +12,7 @@ query Repositories($query : String!) {
                 forkCount
                 issues { totalCount }
                 pullRequests { totalCount }
+                discussions { totalCount }
                 url
                 homepageUrl
                 openGraphImageUrl

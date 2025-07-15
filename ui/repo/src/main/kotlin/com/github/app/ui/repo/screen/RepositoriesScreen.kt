@@ -44,7 +44,6 @@ import com.github.app.ui.repo.R
 import com.github.app.ui.repo.component.button.RepositoryFilterButtons
 import com.github.app.ui.repo.component.card.RepositoryCard
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import org.koin.androidx.compose.koinViewModel
 
 @Stable
@@ -99,9 +98,7 @@ private fun Content(
                 }
 
                 UiState.Error -> ErrorState()
-
                 Loading -> LoadingState()
-
                 UiState.Empty -> EmptyState()
             }
         }
@@ -163,7 +160,6 @@ private fun RepositoriesContent(
                                 dampingRatio = Spring.DampingRatioMediumBouncy,
                             ),
                         )
-                        .fillMaxHeight()
                         .fillMaxSize(),
                     onClickRepository = dropUnlessResumed { onClickRepository(repository) },
                     repository = repository,
@@ -227,6 +223,7 @@ internal fun RepositoriesScreenPreviewSuccessState() {
                                 issuesCount = 45,
                                 pullRequestsCount = 23,
                                 authorName = "author",
+                                discussionsCount = 12
                             ),
                             RepositoryViewState(
                                 id = "2",
@@ -238,6 +235,7 @@ internal fun RepositoriesScreenPreviewSuccessState() {
                                 issuesCount = 123,
                                 pullRequestsCount = 78,
                                 authorName = "author",
+                                discussionsCount = 12,
                             ),
                             RepositoryViewState(
                                 id = "3",
@@ -249,6 +247,7 @@ internal fun RepositoriesScreenPreviewSuccessState() {
                                 issuesCount = 67,
                                 pullRequestsCount = 34,
                                 authorName = "author",
+                                discussionsCount = 12
                             ),
                         ),
                     ),
@@ -269,11 +268,7 @@ internal fun RepositoriesScreenPreviewErrorState() {
     GithubAppTheme {
         Content(
             viewState = rememberUpdatedState(
-                TrendingRepositoriesScreenViewState(
-                    currentState = UiState.Error,
-                    repositories = persistentListOf(),
-                    filterButtons = persistentListOf(),
-                ),
+                TrendingRepositoriesScreenViewState.initialState().withError()
             ),
             onClickRepository = {
                 // Empty
@@ -291,11 +286,8 @@ internal fun RepositoriesScreenPreviewEmptyState() {
     GithubAppTheme {
         Content(
             viewState = rememberUpdatedState(
-                TrendingRepositoriesScreenViewState(
-                    currentState = UiState.Empty,
-                    repositories = persistentListOf(),
-                    filterButtons = persistentListOf(),
-                ),
+                TrendingRepositoriesScreenViewState.initialState()
+                    .copy(currentState = UiState.Empty)
             ),
             onClickRepository = {
                 // Empty
