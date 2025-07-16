@@ -1,6 +1,6 @@
 # Github & Good Practices App
 
-This project is a sample Android application built to showcase modern Android development practices. It's designed to be a living project, continuously updated to reflect the latest trends and technologies in the Android ecosystem.
+This project is a sample Android application I am currently building to showcase modern Android development practices. It's designed to be a living project, continuously updated to reflect the latest trends and technologies in the Android ecosystem.
 
 The application uses the GitHub GraphQL API to search for and display information about repositories.
 
@@ -60,7 +60,7 @@ graph TD
 
     subgraph UIModules["UI Modules"]
         repo["repo"]
-        repo["any-other-ui-modules"]
+        any-other-ui-modules["any-other-ui-modules"]
     end
 
     app["app"]
