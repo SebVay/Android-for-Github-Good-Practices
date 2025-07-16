@@ -29,7 +29,7 @@ spotless = "7.1.0"
 detekt = "1.23.8"
 gradleVersionPlugin = "0.52.0"
 # Ktlint version is used by spotless, latest -> https://github.com/pinterest/ktlint
-ktlint = "1.6.0"
+ktlint = "1.7.0"
 
 [libraries]
 # Androidx

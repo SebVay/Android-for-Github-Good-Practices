@@ -32,7 +32,8 @@ data class TrendingRepositoriesScreenViewState(
     }
 
     fun withFilterSelected(filterButtonViewState: FilterButtonViewState): TrendingRepositoriesScreenViewState {
-        val filterButtons = filterButtons.map { it.copy(isSelected = it == filterButtonViewState) }
+        val filterButtons = filterButtons
+            .map { it.copy(isSelected = it == filterButtonViewState) }
             .toImmutableList()
 
         return copy(filterButtons = filterButtons)

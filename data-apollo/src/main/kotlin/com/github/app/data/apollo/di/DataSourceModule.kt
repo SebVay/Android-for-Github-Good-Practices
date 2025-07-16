@@ -8,4 +8,5 @@ import org.koin.dsl.module
 
 internal val dataSourceModule = module {
     singleOf(::ApolloRepositoryDataSourceImpl) bind ApolloRepositoryDataSource::class
-} + mapperModule
+} +
+    mapperModule
