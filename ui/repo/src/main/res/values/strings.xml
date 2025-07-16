@@ -7,4 +7,9 @@
     <string name="filter_button_last_month">Last Month</string>
 
     <string name="trending_repositories">Trending repositories</string>
+    <string name="repository_stars">Stars</string>
+    <string name="repository_discussions">Discussions</string>
+    <string name="repository_issues">Issues</string>
+    <string name="repository_forks">Forks</string>
+    <string name="repository_pull_requests">Pull Requests</string>
 </resources>

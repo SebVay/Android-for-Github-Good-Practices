@@ -86,4 +86,5 @@ data class RepositoryViewState(
     val forkCount: Int,
     val issuesCount: Int,
     val pullRequestsCount: Int,
+    val discussionsCount: Int,
 ) : Parcelable

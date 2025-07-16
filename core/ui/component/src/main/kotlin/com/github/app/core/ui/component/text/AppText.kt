@@ -4,6 +4,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
@@ -77,6 +78,26 @@ fun AppBodyLarge(
 }
 
 @Composable
+fun AppBodyMedium(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = Color.Unspecified,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE,
+    textsToBold: ImmutableList<String> = persistentListOf(),
+) {
+    AppText(
+        modifier = modifier,
+        text = text,
+        color = color,
+        style = MaterialTheme.typography.bodyMedium,
+        overflow = overflow,
+        maxLines = maxLines,
+        textsToBold = textsToBold,
+    )
+}
+
+@Composable
 internal fun AppText(
     text: String,
     style: TextStyle,
@@ -116,8 +137,8 @@ private fun ApplyBold(
     text: String,
 ) {
     for (textToBold in textsToBold) {
-        val start = text.indexOf(textToBold)
-        val end = start + textToBold.length
+        val start = remember { text.indexOf(textToBold) }
+        val end = remember { start + textToBold.length }
 
         builder.addStyle(
             style = SpanStyle(fontWeight = FontWeight.Bold),

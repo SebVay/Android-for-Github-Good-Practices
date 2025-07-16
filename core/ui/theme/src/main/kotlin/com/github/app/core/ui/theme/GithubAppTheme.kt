@@ -17,7 +17,7 @@ private val LightColorScheme = lightColorScheme(
     background = lightGithubAppColors.background,
     surface = lightGithubAppColors.surface,
     onSurface = lightGithubAppColors.onSurface,
-    onSurfaceVariant = lightGithubAppColors.onSurfaceVariant,
+    onSurfaceVariant = lightGithubAppColors.onSurfaceSecondary,
 )
 
 private val DarkColorScheme = darkColorScheme(
@@ -28,7 +28,7 @@ private val DarkColorScheme = darkColorScheme(
     background = darkGithubAppColors.background,
     surface = darkGithubAppColors.surface,
     onSurface = darkGithubAppColors.onSurface,
-    onSurfaceVariant = lightGithubAppColors.onSurfaceVariant,
+    onSurfaceVariant = lightGithubAppColors.onSurfaceSecondary,
 )
 
 @Composable

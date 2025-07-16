@@ -9,6 +9,7 @@ data class Repository(
     val forkCount: Int,
     val issuesCount: Int,
     val pullRequestsCount: Int,
+    val discussionsCount: Int,
     val url: String,
     val homepageUrl: String?,
     val openGraphImageUrl: String,

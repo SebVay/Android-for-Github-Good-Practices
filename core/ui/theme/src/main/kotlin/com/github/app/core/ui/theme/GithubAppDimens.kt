@@ -24,6 +24,7 @@ object GithubAppDimens {
 
     object Icon {
         val Small = 16.dp
+        val SmallMedium = 24.dp
         val Medium = 32.dp
         val MediumLarge = 48.dp
         val Large = 64.dp

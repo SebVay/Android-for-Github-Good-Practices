@@ -18,6 +18,7 @@ internal class GetTrendingRepositoriesImpl(
             forkCount = repo.forkCount,
             issuesCount = repo.issuesCount,
             pullRequestsCount = repo.pullRequestsCount,
+            discussionsCount = repo.discussionsCount,
             url = repo.url,
             homepageUrl = repo.homepageUrl,
             openGraphImageUrl = repo.openGraphImageUrl,
