@@ -1,25 +1,41 @@
-# Github & Good Practices App
+# 📱 Github & Good Practices App
 
-This project is a sample Android application I am currently building to showcase modern Android development practices. It's designed to be a living project, continuously updated to reflect the latest trends and technologies in the Android ecosystem.
+This project is a sample Android application built to showcase my knowledge of Android development.
+It's designed to be a living project, continuously updated to reflect the latest trends and technologies in the Android ecosystem.
 
 The application uses the GitHub GraphQL API to search for and display information about repositories.
 
-## Key Technologies
+## 🚀 Key Technologies
 
 This project is built with the following technologies:
 
 *   **Kotlin**: The primary programming language for the application.
-*   **Jetpack Compose**: For building the user interface.
-*   **Koin**: For dependency injection.
-*   **Apollo**: For interacting with the GitHub GraphQL API.
-*   **Coil**: For image loading.
-*   **Timber**: For logging.
-*   **Detekt & Spotless**: For code quality.
-*   **Danger (Work In Progress)**: For giving PR insight and niceties.
+*   **Jetpack Compose** 🎨: For building the user interface.
+*   **Koin** 💉: For dependency injection.
+*   **Apollo**  GraphQL 🕸️: For interacting with the GitHub GraphQL API.
+*   **Coil** 🖼️: For image loading.
+*   **Timber** 🪵: For logging.
+*   **Detekt & Spotless** 🧼: For code quality.
+*   **Danger** ⚠️ (Work In Progress): For giving PR insight and niceties
 
-## Getting Started
+## 🏁 Getting Started
 
-To get started with this project, you'll need to add a GitHub personal token to the `gradle.properties`.
+To get started with this project, you'll currently need to add a GitHub personal token to the `gradle.properties`.
+
+### Create a Personal Access Token
+
+First, you need to create a GitHub Personal Access Token (PAT). Here's how:
+
+1.  **Log in to your GitHub account.**
+2.  **Navigate to Settings:** In the upper-right corner of any page, click your profile picture, then click **Settings**.
+3.  **Go to Developer settings:** In the left sidebar, click **Developer settings**.
+4.  **Select Personal access tokens:** In the left sidebar, under **Personal access tokens**, click on **Tokens (classic)**.
+5.  **Generate a new token:** Click **Generate new token** and select **Generate new token (classic)**.
+6.  **Configure your token:**
+    *   **Scopes:** For this project, you'll need to select the `repo` scope to allow access to repositories.
+7.  **Generate the token:** Click the **Generate token** button at the bottom of the page.
+
+Next, add the token to your `gradle.properties` file:
 
 1.  Open `./gradle/gradle.properties`.
 2.  Add the following line to the file, replacing `YOUR_API_KEY` with your actual GitHub personal token:
@@ -28,7 +44,9 @@ To get started with this project, you'll need to add a GitHub personal token to 
 github.token=YOUR_API_KEY
 ```
 
-## Building
+**Note**: In the future, this manual setup will be replaced by a remote server providing a JWT for issuing access credentials. This will remove the need for developers to configure a personal GitHub token.
+
+## 🛠️ Building
 
 To build the project, you can use the following command:
 
@@ -36,7 +54,7 @@ To build the project, you can use the following command:
 ./gradlew build
 ```
 
-## Project Structure
+## 🏗️ Project Structure
 
 The project is divided into several modules, each with a specific responsibility.
 
@@ -105,7 +123,7 @@ graph TD
 
 *   **app**: This is the main application module that brings everything together.
 
-## Convention Plugins
+## 🧩 Convention Plugins
 
 This project uses convention plugins to simplify and standardize build configurations across modules. Instead of repeating the same setup in every `build.gradle.kts` file, we define it once in a plugin and apply it where needed. This makes our build scripts cleaner, more consistent, and easier to maintain.
 
@@ -117,7 +135,7 @@ The convention plugins are located [here](config/build-logic/convention) and are
 *   `AndroidUiConventionPlugin`: A combination of the above plugins, specifically for UI modules.
 *   `CodeQualityConventionPlugin`: Configures Detekt and Spotless for code quality checks.
 
-## Code Quality
+## ✨ Code Quality
 
 This project uses [Detekt](https://detekt.dev/) and [Spotless](https://github.com/diffplug/spotless) to enforce code quality and style. The CI/CD pipeline is configured to run a code quality check on every pull request. **Pull requests will not be merged if the code quality check fails.**
 
@@ -137,6 +155,19 @@ To automatically format the code, you can run the following command:
 
 It is recommended to run this command before pushing any changes to the repository.
 
-## License
+## 🤖 CI/CD
+
+This project uses [Bitrise](https://www.bitrise.io/) for CI/CD. The pipeline is configured with two main workflows that run on every pull request:
+
+1.  **Code Quality Check**: This workflow runs the `./gradlew codeQualityCheck` task to ensure that the code adheres to the project's quality standards.
+2.  **Unit Tests**: This workflow runs all the unit tests in the project.
+
+A pull request can only be merged if both of these workflows pass successfully.
+
+### Danger
+
+The project is in the process of integrating [Danger](https://danger.systems/ruby/) to provide automated feedback on pull requests. Danger will be run in a Dockerized environment and will post comments on pull requests with information about test results, code style violations, and other useful metrics.
+
+## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

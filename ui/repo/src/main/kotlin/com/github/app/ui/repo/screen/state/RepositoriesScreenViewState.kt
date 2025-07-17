@@ -1,6 +1,5 @@
-package com.github.app.ui.repo.screen
+package com.github.app.ui.repo.screen.state
 
-import android.os.Parcelable
 import androidx.annotation.StringRes
 import com.github.app.core.viewmodel.AppViewState
 import com.github.app.core.viewmodel.UiState
@@ -8,30 +7,29 @@ import com.github.app.ui.repo.R
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.parcelize.Parcelize
 
-data class TrendingRepositoriesScreenViewState(
+internal data class RepositoriesScreenViewState(
     val currentState: UiState<Unit>,
     val repositories: ImmutableList<RepositoryViewState>,
     val filterButtons: ImmutableList<FilterButtonViewState>,
 ) : AppViewState {
 
-    fun withRequestLoading(): TrendingRepositoriesScreenViewState {
+    fun withRequestLoading(): RepositoriesScreenViewState {
         return copy(currentState = UiState.Loading)
     }
 
-    fun withRepositories(repositories: List<RepositoryViewState>): TrendingRepositoriesScreenViewState {
+    fun withRepositories(repositories: List<RepositoryViewState>): RepositoriesScreenViewState {
         return copy(
             currentState = UiState.Success(Unit),
             repositories = repositories.toImmutableList(),
         )
     }
 
-    fun withError(): TrendingRepositoriesScreenViewState {
+    fun withError(): RepositoriesScreenViewState {
         return copy(currentState = UiState.Error)
     }
 
-    fun withFilterSelected(filterButtonViewState: FilterButtonViewState): TrendingRepositoriesScreenViewState {
+    fun withFilterSelected(filterButtonViewState: FilterButtonViewState): RepositoriesScreenViewState {
         val filterButtons = filterButtons
             .map { it.copy(isSelected = it == filterButtonViewState) }
             .toImmutableList()
@@ -40,7 +38,7 @@ data class TrendingRepositoriesScreenViewState(
     }
 
     companion object {
-        fun initialState() = TrendingRepositoriesScreenViewState(
+        fun initialState() = RepositoriesScreenViewState(
             currentState = UiState.Loading,
             repositories = persistentListOf(),
             filterButtons = persistentListOf(
@@ -75,17 +73,3 @@ enum class FilterType {
     LAST_WEEK,
     LAST_MONTH,
 }
-
-@Parcelize
-data class RepositoryViewState(
-    val id: String,
-    val name: String,
-    val authorName: String,
-    val imageUrl: String,
-    val description: String,
-    val stargazerCount: Int,
-    val forkCount: Int,
-    val issuesCount: Int,
-    val pullRequestsCount: Int,
-    val discussionsCount: Int,
-) : Parcelable

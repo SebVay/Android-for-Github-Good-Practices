@@ -1,6 +1,7 @@
 package com.github.app.data.apollo.repo.entity
 
 data class RepoEntity(
+    val id: String,
     val name: String,
     val description: String?,
     val owner: OwnerEntity,

@@ -1,4 +1,4 @@
-package com.github.app.ui.repo.icon
+package com.github.app.ui.repo.compose.icon
 
 /**
  * A namespace object that serves as a container for repository-related icons used throughout the UI.

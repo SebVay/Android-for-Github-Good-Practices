@@ -5,7 +5,6 @@ import androidx.compose.ui.graphics.Color
 import com.github.app.core.ui.theme.Token.Neutral10
 import com.github.app.core.ui.theme.Token.Neutral100
 import com.github.app.core.ui.theme.Token.Neutral30
-import com.github.app.core.ui.theme.Token.Neutral50
 import com.github.app.core.ui.theme.Token.Neutral70
 import com.github.app.core.ui.theme.Token.Neutral90
 import com.github.app.core.ui.theme.Token.Neutral98
@@ -22,7 +21,6 @@ data class GithubAppColors(
     val surface: Color,
     val onSurface: Color,
     val onSurfaceSecondary: Color,
-    val onSurfaceDiscrete: Color,
 )
 
 val lightGithubAppColors = GithubAppColors(
@@ -35,7 +33,6 @@ val lightGithubAppColors = GithubAppColors(
     surface = Neutral100,
     onSurface = Neutral10,
     onSurfaceSecondary = Neutral30,
-    onSurfaceDiscrete = Neutral50,
 )
 
 val darkGithubAppColors = GithubAppColors(
@@ -48,7 +45,6 @@ val darkGithubAppColors = GithubAppColors(
     surface = Neutral10,
     onSurface = Neutral90,
     onSurfaceSecondary = Neutral70,
-    onSurfaceDiscrete = Neutral50,
 )
 
 internal object Token {
