@@ -1,22 +1,35 @@
-# 📱 Github & Good Practices App
+<table>
+   <tr>
+   <td>
 
-This project is a sample Android application built to showcase my knowledge of Android development.
-It's designed to be a living project, continuously updated to reflect the latest trends and technologies in the Android ecosystem.
-
-The application uses the GitHub GraphQL API to search for and display information about repositories.
-
-## 🚀 Key Technologies
-
-This project is built with the following technologies:
+   # 📱 Github & Good Practices App
+   This project is a sample Android application built to showcase my knowledge of Android development.
+   It's designed to be a living project, continuously updated to reflect the latest trends and technologies in the Android ecosystem.
+   
+   The application uses the GitHub GraphQL API to search for and display information about repositories.
+   
+   ## 🚀 Key Technologies
+   
+   This project is built with the following technologies:
 
 *   **Kotlin**: The primary programming language for the application.
-*   **Jetpack Compose** 🎨: For building the user interface.
-*   **Koin** 💉: For dependency injection.
-*   **Apollo**  GraphQL 🕸️: For interacting with the GitHub GraphQL API.
-*   **Coil** 🖼️: For image loading.
-*   **Timber** 🪵: For logging.
-*   **Detekt & Spotless** 🧼: For code quality.
-*   **Danger** ⚠️ (Work In Progress): For giving PR insight and niceties
+*   **Jetpack Compose**: For building the user interface.
+*   **Koin**: For dependency injection.
+*   **Apollo**  GraphQL: For interacting with the GitHub GraphQL API.
+*   **Coil**: For image loading.
+*   **Timber**: For logging.
+*   **Detekt & Spotless**: For code quality.
+*   **Danger** (Work In Progress): For giving PR insight and niceties
+
+</td>
+<td>
+   <img width="80%"  alt="image" src="https://github.com/user-attachments/assets/81cca498-c64b-40d4-9941-21c3169099e6" />
+</td>
+   
+</tr>
+</table>
+
+
 
 ## 🏁 Getting Started
 
