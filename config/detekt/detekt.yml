@@ -637,6 +637,7 @@ style:
     ignoreConstantDeclaration: true
     ignoreCompanionObjectPropertyDeclaration: true
     ignoreAnnotation: false
+    ignoreAnnotated: ['Preview', 'MultiDevicePreviews']
     ignoreNamedArgument: true
     ignoreEnums: false
     ignoreRanges: false

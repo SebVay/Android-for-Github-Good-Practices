@@ -18,9 +18,9 @@ import com.github.app.ui.repo.screen.state.LanguageLineViewState
  *
  * @param languageLine The view state containing the language progression data.
  */
+@Suppress("SpreadOperator")
 @Composable
 internal fun LanguageLine(languageLine: LanguageLineViewState) {
-
     Box(
         Modifier
             .height(RepositoryDimens.LanguageLineHeight)
@@ -30,14 +30,15 @@ internal fun LanguageLine(languageLine: LanguageLineViewState) {
                     Modifier.background(Brush.linearGradient(*languageLine.linearGradientArray()))
                 } else {
                     Modifier.background(languageLine.languageProgression.single().color.toComposeColor())
-                }
-            )
+                },
+            ),
     )
 }
 
 /**
  * Converts the language progression data into an array of pairs suitable for creating a linear gradient.
- * Each pair consists of a float representing the start weight (position) of the color stop and the corresponding Compose Color.
+ * Each pair consists of a float representing the start weight (position) of the color stop
+ * and the corresponding Compose Color.
  *
  * @return An array of [Pair]<[Float], [Color]> where the first element is the stop position (0.0f to 1.0f)
  *         and the second element is the [Color] at that stop.

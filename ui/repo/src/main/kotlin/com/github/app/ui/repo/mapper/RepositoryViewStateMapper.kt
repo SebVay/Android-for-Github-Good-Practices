@@ -37,7 +37,7 @@ internal class RepositoryViewStateMapperImpl : RepositoryViewStateMapper {
                         weight = language.weight,
                     )
                 }.toImmutableList(),
-                languageLine = repository.languages.asLanguageLine()
+                languageLine = repository.languages.asLanguageLine(),
             )
         }.toImmutableList()
     }
@@ -50,7 +50,6 @@ internal class RepositoryViewStateMapperImpl : RepositoryViewStateMapper {
      */
     private fun List<Language>.asLanguageLine(): LanguageLineViewState? {
         return if (isNotEmpty()) {
-
             // Personal note:
             // Functional approach (scan, reduce) could have been used here, but this is more readable IMO
             var lastWeight = 0F
@@ -60,7 +59,9 @@ internal class RepositoryViewStateMapperImpl : RepositoryViewStateMapper {
             }
 
             LanguageLineViewState(map.toImmutableList())
-        } else null
+        } else {
+            null
+        }
     }
 
     private fun Language.toColor(): LanguageColorViewState = when (val color = color) {

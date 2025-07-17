@@ -142,7 +142,7 @@ private fun RepositoriesContent(
         ) {
             item(
                 span = { GridItemSpan(maxLineSpan) },
-                contentType = { "Header" }
+                contentType = { "Header" },
             ) {
                 Column(
                     modifier = Modifier
@@ -162,7 +162,7 @@ private fun RepositoriesContent(
             items(
                 items = repositories,
                 contentType = { "RepositoryCard" },
-                key = { it.id }
+                key = { it.id },
             ) { repository ->
                 Box(
                     Modifier
@@ -172,7 +172,7 @@ private fun RepositoriesContent(
                                 stiffness = Spring.StiffnessLow,
                                 dampingRatio = Spring.DampingRatioMediumBouncy,
                             ),
-                        )
+                        ),
                 ) {
                     RepositoryCard(
                         modifier = Modifier
@@ -242,7 +242,7 @@ internal fun RepositoriesScreenPreviewSuccessState() {
                                 authorName = "author",
                                 discussionsCount = 12,
                                 languages = persistentListOf(),
-                                languageLine = null
+                                languageLine = null,
                             ),
                             RepositoryViewState(
                                 id = "2",
@@ -256,7 +256,7 @@ internal fun RepositoriesScreenPreviewSuccessState() {
                                 authorName = "author",
                                 discussionsCount = 12,
                                 languages = persistentListOf(),
-                                languageLine = null
+                                languageLine = null,
                             ),
                         ),
                     ),

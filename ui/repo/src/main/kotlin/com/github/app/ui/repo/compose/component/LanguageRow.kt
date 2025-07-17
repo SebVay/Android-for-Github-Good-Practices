@@ -26,10 +26,10 @@ internal fun LanguageRow(
     FlowRow(
         modifier = Modifier.padding(
             start = Padding.DOUBLE,
-            top = Padding.DOUBLE
+            top = Padding.DOUBLE,
         ),
         horizontalArrangement = Arrangement.spacedBy(Padding.DOUBLE),
-        verticalArrangement = Arrangement.spacedBy(Padding.UNIT)
+        verticalArrangement = Arrangement.spacedBy(Padding.UNIT),
     ) {
         states.forEach { language ->
 
@@ -37,7 +37,7 @@ internal fun LanguageRow(
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(Padding.UNIT)
+                horizontalArrangement = Arrangement.spacedBy(Padding.UNIT),
             ) {
                 Box(
                     modifier = Modifier
@@ -48,7 +48,7 @@ internal fun LanguageRow(
 
                 AppLabelLarge(
                     modifier = Modifier,
-                    text = language.name
+                    text = language.name,
                 )
             }
         }

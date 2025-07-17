@@ -126,8 +126,8 @@ private fun PreviewRepositoryCard() {
                     LanguageProgressionViewState(CustomColor("#A97BFF"), 0.0F),
                     LanguageProgressionViewState(CustomColor("#B07219"), 0.9F),
                     LanguageProgressionViewState(DefaultColor, 1.0F),
-                )
-            )
+                ),
+            ),
         ),
     )
 }

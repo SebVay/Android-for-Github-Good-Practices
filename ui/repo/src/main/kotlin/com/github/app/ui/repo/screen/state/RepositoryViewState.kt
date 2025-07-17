@@ -18,7 +18,7 @@ internal data class RepositoryViewState(
     val pullRequestsCount: Int,
     val discussionsCount: Int,
     val languages: ImmutableList<LanguageViewState>,
-    val languageLine: LanguageLineViewState?
+    val languageLine: LanguageLineViewState?,
 )
 
 @Stable
@@ -40,10 +40,10 @@ internal sealed class LanguageColorViewState {
 
 @Stable
 internal data class LanguageLineViewState(
-    val languageProgression: ImmutableList<LanguageProgressionViewState>
+    val languageProgression: ImmutableList<LanguageProgressionViewState>,
 )
 
 internal data class LanguageProgressionViewState(
     val color: LanguageColorViewState,
-    val startWeight: Float
+    val startWeight: Float,
 )
