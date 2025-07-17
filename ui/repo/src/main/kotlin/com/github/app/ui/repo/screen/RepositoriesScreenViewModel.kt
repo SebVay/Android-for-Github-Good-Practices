@@ -3,7 +3,11 @@ package com.github.app.ui.repo.screen
 import com.github.app.core.viewmodel.AppViewModel
 import com.github.app.domain.repo.usecase.GetTrendingRepositoriesUseCase
 import com.github.app.domain.repo.usecase.TimePeriod
-import com.github.app.ui.repo.mapper.RepositoriesUiMapper
+import com.github.app.ui.repo.mapper.RepositoryViewStateMapper
+import com.github.app.ui.repo.screen.state.FilterButtonViewState
+import com.github.app.ui.repo.screen.state.FilterType
+import com.github.app.ui.repo.screen.state.RepositoriesScreenViewState
+import com.github.app.ui.repo.screen.state.RepositoryViewState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -11,10 +15,10 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
 
 internal class RepositoriesScreenViewModel(
-    initialState: TrendingRepositoriesScreenViewState,
+    initialState: RepositoriesScreenViewState,
     private val getTrendingRepositories: GetTrendingRepositoriesUseCase,
-    private val repositoriesMapper: RepositoriesUiMapper,
-) : AppViewModel<TrendingRepositoriesScreenViewState>(initialState),
+    private val repositoriesMapper: RepositoryViewStateMapper,
+) : AppViewModel<RepositoriesScreenViewState>(initialState),
     RepositoriesScreenInteraction {
 
     init {

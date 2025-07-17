@@ -10,6 +10,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,14 +36,18 @@ import com.github.app.core.ui.component.loading.AppProgressIndicator
 import com.github.app.core.ui.component.text.AppTitleLarge
 import com.github.app.core.ui.component.topappbar.AppTopAppBar
 import com.github.app.core.ui.navigation.screen.Screen
-import com.github.app.core.ui.theme.GithubAppDimens
+import com.github.app.core.ui.theme.GithubAppDimens.Padding
 import com.github.app.core.ui.theme.GithubAppTheme
 import com.github.app.core.viewmodel.UiState
 import com.github.app.core.viewmodel.UiState.Loading
 import com.github.app.ui.repo.R
-import com.github.app.ui.repo.component.button.RepositoryFilterButtons
-import com.github.app.ui.repo.component.card.RepositoryCard
+import com.github.app.ui.repo.compose.component.button.RepositoryFilterButtons
+import com.github.app.ui.repo.compose.component.card.RepositoryCard
+import com.github.app.ui.repo.screen.state.FilterButtonViewState
+import com.github.app.ui.repo.screen.state.RepositoriesScreenViewState
+import com.github.app.ui.repo.screen.state.RepositoryViewState
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import org.koin.androidx.compose.koinViewModel
 
 @Stable
@@ -72,7 +77,7 @@ object RepositoriesScreen2 : Screen(ROUTE + "2") {
 
 @Composable
 private fun Content(
-    viewState: State<TrendingRepositoriesScreenViewState>,
+    viewState: State<RepositoriesScreenViewState>,
     onClickRepository: (RepositoryViewState) -> Unit,
     onFilterButtonClick: (FilterButtonViewState) -> Unit,
 ) {
@@ -118,7 +123,7 @@ private fun Content(
 @Composable
 private fun RepositoriesContent(
     repositories: ImmutableList<RepositoryViewState>,
-    viewState: State<TrendingRepositoriesScreenViewState>,
+    viewState: State<RepositoriesScreenViewState>,
     onFilterButtonClick: (FilterButtonViewState) -> Unit,
     modifier: Modifier = Modifier,
     onClickRepository: (RepositoryViewState) -> Unit,
@@ -132,13 +137,17 @@ private fun RepositoriesContent(
             modifier = Modifier
                 .fillMaxSize(),
             columns = GridCells.Adaptive(minSize = 360.dp),
-            contentPadding = PaddingValues(GithubAppDimens.Padding.DOUBLE),
-            horizontalArrangement = Arrangement.spacedBy(GithubAppDimens.Padding.UNIT),
-            verticalArrangement = Arrangement.spacedBy(GithubAppDimens.Padding.DOUBLE),
+            contentPadding = PaddingValues(Padding.UNIT),
+            horizontalArrangement = Arrangement.spacedBy(Padding.UNIT),
         ) {
-            item(span = { GridItemSpan(maxLineSpan) }) {
+            item(
+                span = { GridItemSpan(maxLineSpan) },
+                contentType = { "Header" }
+            ) {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .padding(Padding.UNIT)
+                        .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     AppTitleLarge(stringResource(R.string.trending_repositories))
@@ -150,19 +159,28 @@ private fun RepositoriesContent(
                 }
             }
 
-            items(items = repositories) { repository ->
-                RepositoryCard(
-                    modifier = Modifier
+            items(
+                items = repositories,
+                contentType = { "RepositoryCard" },
+                key = { it.id }
+            ) { repository ->
+                Box(
+                    Modifier
+                        .padding(Padding.UNIT)
                         .animateItem(
                             placementSpec = spring(
                                 stiffness = Spring.StiffnessLow,
                                 dampingRatio = Spring.DampingRatioMediumBouncy,
                             ),
                         )
-                        .fillMaxSize(),
-                    onClickRepository = dropUnlessResumed { onClickRepository(repository) },
-                    repository = repository,
-                )
+                ) {
+                    RepositoryCard(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        onClickRepository = dropUnlessResumed { onClickRepository(repository) },
+                        repository = repository,
+                    )
+                }
             }
         }
     }
@@ -189,7 +207,7 @@ internal fun RepositoriesScreenPreviewLoadingState() {
     GithubAppTheme {
         Content(
             viewState = rememberUpdatedState(
-                TrendingRepositoriesScreenViewState.initialState().withRequestLoading(),
+                RepositoriesScreenViewState.initialState().withRequestLoading(),
             ),
             onClickRepository = {
                 // Empty
@@ -207,7 +225,7 @@ internal fun RepositoriesScreenPreviewSuccessState() {
     GithubAppTheme {
         Content(
             viewState = rememberUpdatedState(
-                TrendingRepositoriesScreenViewState
+                RepositoriesScreenViewState
                     .initialState()
                     .withRepositories(
                         listOf(
@@ -223,6 +241,8 @@ internal fun RepositoriesScreenPreviewSuccessState() {
                                 pullRequestsCount = 23,
                                 authorName = "author",
                                 discussionsCount = 12,
+                                languages = persistentListOf(),
+                                languageLine = null
                             ),
                             RepositoryViewState(
                                 id = "2",
@@ -235,18 +255,8 @@ internal fun RepositoriesScreenPreviewSuccessState() {
                                 pullRequestsCount = 78,
                                 authorName = "author",
                                 discussionsCount = 12,
-                            ),
-                            RepositoryViewState(
-                                id = "3",
-                                name = "Kotlin Coroutines",
-                                imageUrl = "https://example.com/image3.jpg",
-                                description = "Library support for Kotlin coroutines with multiplatform support.",
-                                stargazerCount = 4567,
-                                forkCount = 890,
-                                issuesCount = 67,
-                                pullRequestsCount = 34,
-                                authorName = "author",
-                                discussionsCount = 12,
+                                languages = persistentListOf(),
+                                languageLine = null
                             ),
                         ),
                     ),
@@ -267,7 +277,7 @@ internal fun RepositoriesScreenPreviewErrorState() {
     GithubAppTheme {
         Content(
             viewState = rememberUpdatedState(
-                TrendingRepositoriesScreenViewState.initialState().withError(),
+                RepositoriesScreenViewState.initialState().withError(),
             ),
             onClickRepository = {
                 // Empty
@@ -285,7 +295,7 @@ internal fun RepositoriesScreenPreviewEmptyState() {
     GithubAppTheme {
         Content(
             viewState = rememberUpdatedState(
-                TrendingRepositoriesScreenViewState.initialState()
+                RepositoriesScreenViewState.initialState()
                     .copy(currentState = UiState.Empty),
             ),
             onClickRepository = {

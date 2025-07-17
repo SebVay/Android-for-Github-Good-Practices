@@ -1,7 +1,6 @@
 package com.github.app.core.ui.component.text
 
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -98,6 +97,26 @@ fun AppBodyMedium(
 }
 
 @Composable
+fun AppLabelLarge(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = Color.Unspecified,
+    overflow: TextOverflow = TextOverflow.Clip,
+    maxLines: Int = Int.MAX_VALUE,
+    textsToBold: ImmutableList<String> = persistentListOf(),
+) {
+    AppText(
+        modifier = modifier,
+        text = text,
+        color = color,
+        style = MaterialTheme.typography.labelLarge,
+        overflow = overflow,
+        maxLines = maxLines,
+        textsToBold = textsToBold,
+    )
+}
+
+@Composable
 internal fun AppText(
     text: String,
     style: TextStyle,
@@ -148,28 +167,24 @@ private fun ApplyBold(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 internal fun AppTextPreview() {
-    Surface {
-        AppText(
-            text = "This is a sample text with bold words: bold and important.",
-            style = MaterialTheme.typography.bodyLarge,
-            textsToBold = persistentListOf("bold", "important"),
-        )
-    }
+    AppText(
+        text = "This is a sample text with bold words: bold and important.",
+        style = MaterialTheme.typography.bodyLarge,
+        textsToBold = persistentListOf("bold", "important"),
+    )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 internal fun AppTextWithOverflowPreview() {
-    Surface {
-        AppText(
-            text = "This is a very long sample text that will likely overflow " +
-                "and demonstrate the ellipsis functionality. Which is really long.",
-            style = MaterialTheme.typography.bodyLarge,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-        )
-    }
+    AppText(
+        text = "This is a very long sample text that will likely overflow " +
+            "and demonstrate the ellipsis functionality. Which is really long.",
+        style = MaterialTheme.typography.bodyLarge,
+        maxLines = 2,
+        overflow = TextOverflow.Ellipsis,
+    )
 }

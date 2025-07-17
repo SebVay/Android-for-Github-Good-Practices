@@ -1,4 +1,4 @@
-package com.github.app.ui.repo.icon.pack
+package com.github.app.ui.repo.compose.icon.pack
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.github.app.ui.repo.icon.RepositoryIcons
+import com.github.app.ui.repo.compose.icon.RepositoryIcons
 
 val RepositoryIcons.PullRequest: ImageVector by lazy {
     Builder(

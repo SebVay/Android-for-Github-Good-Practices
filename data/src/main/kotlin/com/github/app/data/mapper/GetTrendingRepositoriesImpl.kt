@@ -10,6 +10,7 @@ internal class GetTrendingRepositoriesImpl(
 ) : GetTrendingRepositories {
     override suspend fun invoke(query: String): List<Repository> = dataSource.getRepositories(query).map { repo ->
         Repository(
+            id = repo.id,
             name = repo.name,
             description = repo.description,
             ownerLogin = repo.owner.login,

@@ -2,6 +2,7 @@ query Repositories($query : String!) {
     search(query: $query, type: REPOSITORY, first: 20) {
         nodes {
             ... on Repository {
+                id
                 name
                 description
                 owner {

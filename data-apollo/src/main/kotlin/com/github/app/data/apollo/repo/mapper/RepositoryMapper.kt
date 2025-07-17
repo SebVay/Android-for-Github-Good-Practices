@@ -10,6 +10,7 @@ internal interface RepositoryMapper : (OnRepository) -> RepoEntity
 internal class RepositoryMapperImpl : RepositoryMapper {
     override fun invoke(repository: OnRepository): RepoEntity = with(repository) {
         RepoEntity(
+            id = id,
             name = name,
             description = description,
             owner = OwnerEntity(
