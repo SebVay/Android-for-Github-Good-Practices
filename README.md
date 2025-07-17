@@ -1,6 +1,6 @@
 # 📱 Github & Good Practices App
 
-This project is a sample Android application built to showcase my knowledge of Android development. 
+This project is a sample Android application built to showcase my knowledge of Android development.
 It's designed to be a living project, continuously updated to reflect the latest trends and technologies in the Android ecosystem.
 
 The application uses the GitHub GraphQL API to search for and display information about repositories.
