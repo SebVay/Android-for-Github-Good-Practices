@@ -23,7 +23,6 @@ import com.github.app.core.ui.theme.LocalColors
 import com.github.app.ui.repo.compose.component.LanguageLine
 import com.github.app.ui.repo.compose.component.LanguageRow
 import com.github.app.ui.repo.compose.component.StatRow
-import com.github.app.ui.repo.screen.state.LanguageColorViewState
 import com.github.app.ui.repo.screen.state.LanguageColorViewState.CustomColor
 import com.github.app.ui.repo.screen.state.LanguageColorViewState.DefaultColor
 import com.github.app.ui.repo.screen.state.LanguageLineViewState
@@ -90,7 +89,13 @@ internal fun RepositoryCard(
             StatRow(repository)
 
             if (repository.languages.isNotEmpty()) {
-                LanguageRow(repository.languages)
+                LanguageRow(
+                    repository.languages,
+                    Modifier.padding(
+                        start = Padding.UNIT + Padding.HALF,
+                        top = Padding.DOUBLE,
+                    ),
+                )
             }
         }
 

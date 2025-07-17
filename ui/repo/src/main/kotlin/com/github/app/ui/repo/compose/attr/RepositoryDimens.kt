@@ -4,5 +4,5 @@ import androidx.compose.ui.unit.dp
 
 object RepositoryDimens {
     val LanguageLineHeight = 8.dp
-    val LanguageCircleSize = 16.dp
+    val LanguageCircleSize = 12.dp
 }
