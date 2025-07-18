@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The Domain Contract module is an experiment inspired by by Uncle Bob's Clean Architecture.
+The Domain Contract module is an experiment inspired by Uncle Bob's Clean Architecture.
 It serves as a boundary layer between the domain and data layers in this Clean Architecture
 implementation.
 It defines interfaces (contracts) that the data layer must implement and that the domain layer

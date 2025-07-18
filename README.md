@@ -6,8 +6,7 @@
    This project is a sample Android application built to showcase my knowledge of Android development.
    It's designed to be a living project, continuously updated to reflect the latest trends and technologies in the Android ecosystem.
    
-   The application uses the GitHub GraphQL API to search for and display information about repositories.
-   
+   The application uses the [GitHub GraphQL API](https://docs.github.com/en/graphql) to search for and display information about repositories.
    ## 🚀 Key Technologies
    
    This project is built with the following technologies:
@@ -21,15 +20,12 @@
 *   **Detekt & Spotless**: For code quality.
 *   **Danger** (Work In Progress): For giving PR insight and niceties
 
-</td>
-<td>
-   <img width="80%"  alt="image" src="https://github.com/user-attachments/assets/81cca498-c64b-40d4-9941-21c3169099e6" />
-</td>
-   
-</tr>
+   </td>
+   <td>
+   <img width="90%"  alt="image" src="https://github.com/user-attachments/assets/81cca498-c64b-40d4-9941-21c3169099e6" />
+   </td>
+   </tr>
 </table>
-
-
 
 ## 🏁 Getting Started
 
@@ -37,16 +33,12 @@ To get started with this project, you'll currently need to add a GitHub personal
 
 ### Create a Personal Access Token
 
-First, you need to create a GitHub Personal Access Token (PAT). Here's how:
+First, you need to create a Classic GitHub Personal Access Token. Here's how:
 
-1.  **Log in to your GitHub account.**
-2.  **Navigate to Settings:** In the upper-right corner of any page, click your profile picture, then click **Settings**.
-3.  **Go to Developer settings:** In the left sidebar, click **Developer settings**.
-4.  **Select Personal access tokens:** In the left sidebar, under **Personal access tokens**, click on **Tokens (classic)**.
-5.  **Generate a new token:** Click **Generate new token** and select **Generate new token (classic)**.
-6.  **Configure your token:**
+1. **Log in to your GitHub account, Navigate to Settings, Go to [Developer settings](https://github.com/settings/tokens)**
+2. **Generate a new token:** Click **Generate new token** and select **Generate new token (classic)**.
+3. **Configure your token & generate it:**
     *   **Scopes:** For this project, you'll need to select the `repo` scope to allow access to repositories.
-7.  **Generate the token:** Click the **Generate token** button at the bottom of the page.
 
 Next, add the token to your `gradle.properties` file:
 
