@@ -56,7 +56,7 @@ class AndroidConfigConventionPlugin : Plugin<Project> {
                 }
 
                 lint {
-                    disable += "NewerVersionAvailable"
+                    disable += setOf("NewerVersionAvailable", "GradleDependency")
                     abortOnError = true
                     warningsAsErrors = true
                     baseline = file("lint-baseline.xml")

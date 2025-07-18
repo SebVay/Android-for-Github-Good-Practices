@@ -1,8 +1,10 @@
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.withType
 
 /**
  * A convention plugin that applies common dependencies used by Android modules (Application and Library).
@@ -23,11 +25,20 @@ class AndroidDependenciesConventionPlugin : Plugin<Project> {
                     "implementation"(libs.findLibrary("timber").get())
                     "implementation"(libs.findLibrary("koin").get())
 
+                    // Our custom lint rules are imported from here
                     "lintChecks"(project(":config:lint-rules"))
 
+                    // JUnit 5 (aka. Jupiter)
                     "testImplementation"(platform(libs.findLibrary("junit-bom").get()))
-                    "testImplementation"(libs.findLibrary("junit-jupiter").get())
+                    "testImplementation"(libs.findLibrary("junit-jupiter-core").get())
+                    "testRuntimeOnly"(libs.findLibrary("junit-platform-launcher").get())
+
                     "testImplementation"(libs.findLibrary("mockk").get())
+                    "testImplementation"(libs.findLibrary("kotlinx-coroutines-test").get())
+                }
+
+                tasks.withType<Test> {
+                    useJUnitPlatform()
                 }
             }
         }
