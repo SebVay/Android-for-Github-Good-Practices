@@ -11,7 +11,7 @@ internal data class RepositoryViewState(
     val name: String,
     val authorName: String,
     val imageUrl: String,
-    val description: String,
+    val description: String?,
     val stargazerCount: Int,
     val forkCount: Int,
     val issuesCount: Int,

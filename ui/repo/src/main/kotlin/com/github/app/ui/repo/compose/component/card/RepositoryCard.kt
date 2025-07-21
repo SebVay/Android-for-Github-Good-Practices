@@ -80,11 +80,13 @@ internal fun RepositoryCard(
                 )
             }
 
-            AppBodyLarge(
-                modifier = Modifier.padding(top = Padding.UNIT),
-                text = repository.description,
-                color = LocalColors.current.onSurfaceSecondary,
-            )
+            if (repository.description != null) {
+                AppBodyLarge(
+                    modifier = Modifier.padding(top = Padding.UNIT),
+                    text = repository.description,
+                    color = LocalColors.current.onSurfaceSecondary,
+                )
+            }
 
             StatRow(repository)
 

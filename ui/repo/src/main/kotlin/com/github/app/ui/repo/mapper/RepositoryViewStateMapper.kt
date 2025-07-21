@@ -26,9 +26,9 @@ internal class RepositoryViewStateMapperImpl : RepositoryViewStateMapper {
                 description = repository.description,
                 stargazerCount = repository.stargazerCount,
                 forkCount = repository.forkCount,
-                issuesCount = repository.issuesCount,
-                pullRequestsCount = repository.pullRequestsCount,
-                discussionsCount = repository.discussionsCount,
+                issuesCount = repository.issueCount,
+                pullRequestsCount = repository.pullRequestCount,
+                discussionsCount = repository.discussionCount,
                 authorName = repository.ownerName,
                 languages = repository.languages.map { language ->
                     LanguageViewState(

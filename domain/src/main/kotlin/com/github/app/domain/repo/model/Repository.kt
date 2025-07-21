@@ -3,14 +3,14 @@ package com.github.app.domain.repo.model
 data class Repository(
     val id: String,
     val name: String,
-    val description: String,
+    val description: String?,
     val ownerName: String,
     val ownerAvatarUrl: String,
     val stargazerCount: Int,
     val forkCount: Int,
-    val issuesCount: Int,
-    val pullRequestsCount: Int,
-    val discussionsCount: Int,
+    val issueCount: Int,
+    val pullRequestCount: Int,
+    val discussionCount: Int,
     val url: String,
     val homepageUrl: String?,
     val openGraphImageUrl: String,
@@ -21,7 +21,7 @@ data class Language(
     val name: String,
     val color: LanguageColor,
     val weight: Float,
-    val lineOfCode: Int,
+    val size: Int,
 )
 
 /**
@@ -37,5 +37,5 @@ sealed class LanguageColor {
      */
     object DefaultColor : LanguageColor()
 
-    class CustomColor(val hexColor: String) : LanguageColor()
+    data class CustomColor(val hexColor: String) : LanguageColor()
 }

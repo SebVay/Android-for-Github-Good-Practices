@@ -34,6 +34,8 @@ class AndroidDependenciesConventionPlugin : Plugin<Project> {
                     "testRuntimeOnly"(libs.findLibrary("junit-platform-launcher").get())
 
                     "testImplementation"(libs.findLibrary("mockk").get())
+                    "testImplementation"(libs.findLibrary("kotest-runner-junit5").get())
+                    "testImplementation"(libs.findLibrary("kotest-assertions-core").get())
                     "testImplementation"(libs.findLibrary("kotlinx-coroutines-test").get())
                 }
 
