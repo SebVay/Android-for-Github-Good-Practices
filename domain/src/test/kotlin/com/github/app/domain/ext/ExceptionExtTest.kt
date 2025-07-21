@@ -1,10 +1,10 @@
 package com.github.app.domain.ext
 
 import com.github.app.domain.exception.DomainException
-import java.io.IOException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.io.IOException
 
 class ExceptionExtTest {
 

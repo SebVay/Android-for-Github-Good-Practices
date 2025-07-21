@@ -8,4 +8,6 @@ import org.koin.dsl.module
 
 val domainModules = module {
     singleOf(::GetTrendingRepositoriesUseCaseImpl) bind GetTrendingRepositoriesUseCase::class
-} + mapperModule + utilityModule
+} +
+    mapperModule +
+    utilityModule

@@ -35,7 +35,7 @@ class TrendingRepositoryMapperImplTest {
             url = GIVEN_URL,
             homepageUrl = GIVEN_HOMEPAGE_URL,
             openGraphImageUrl = GIVEN_OPEN_GRAPH_IMAGE_URL,
-            languages = emptyList()
+            languages = emptyList(),
         )
 
         repository shouldBeEqual expected
@@ -64,7 +64,7 @@ class TrendingRepositoryMapperImplTest {
         repository.languages shouldContainInOrder listOf(
             expectedSmallLanguage,
             expectedMediumLanguage,
-            expectedLargeLanguage
+            expectedLargeLanguage,
         )
     }
 
@@ -97,7 +97,7 @@ class TrendingRepositoryMapperImplTest {
             url = GIVEN_URL,
             homepageUrl = GIVEN_HOMEPAGE_URL,
             openGraphImageUrl = GIVEN_OPEN_GRAPH_IMAGE_URL,
-            languages = emptyList()
+            languages = emptyList(),
         )
 
         private val givenLanguage = Language("", DefaultColor, 0F, 0)

@@ -29,7 +29,7 @@ class GetTrendingRepositoriesUseCaseImplTest {
     private val useCase = GetTrendingRepositoriesUseCaseImpl(
         getTrendingRepositories = getTrendingRepositories,
         mapper = mapper,
-        clock = clock
+        clock = clock,
     )
 
     @Test
@@ -106,7 +106,6 @@ class GetTrendingRepositoriesUseCaseImplTest {
         coVerify { getTrendingRepositories(givenQuery) }
     }
 
-
     @Test
     fun `verify exception is mapped to failure when fetching repositories fails`() = runTest {
         val givenQuery = "created:>2023-03-21 sort:stars"
@@ -120,6 +119,5 @@ class GetTrendingRepositoriesUseCaseImplTest {
         }
     }
 }
-
 
 private const val ANY_TIME = "2023-03-22T12:00:00Z"

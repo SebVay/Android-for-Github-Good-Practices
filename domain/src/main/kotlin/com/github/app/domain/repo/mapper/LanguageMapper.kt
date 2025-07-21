@@ -23,7 +23,6 @@ internal class LanguageMapperImpl : LanguageMapper {
     private val colorRegex = Regex("^#[a-fA-F0-9]{6}$")
 
     override fun map(totalBytes: Int, contractLanguage: ContractLanguage): Language {
-
         return Language(
             name = contractLanguage.name,
             color = contractLanguage.asColor(),
@@ -44,7 +43,6 @@ internal class LanguageMapperImpl : LanguageMapper {
     private fun ContractLanguage.asWeight(totalBytes: Int): Float {
         return size.toFloat() / totalBytes
     }
-
 
     @OptIn(ExperimentalContracts::class)
     private fun String?.isValidColor(): Boolean {

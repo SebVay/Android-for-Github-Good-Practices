@@ -23,7 +23,7 @@ class LanguageMapperImplTest {
             name = givenLanguage,
             color = CustomColor(givenColor),
             weight = 0.5f,
-            size = 100
+            size = 100,
         )
     }
 
@@ -38,7 +38,7 @@ class LanguageMapperImplTest {
             name = givenLanguage,
             color = DefaultColor,
             weight = 0.25f,
-            size = 100
+            size = 100,
         )
     }
 }

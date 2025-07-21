@@ -301,6 +301,7 @@ exceptions:
     allowedExceptionNameRegex: '_|(ignore|expected).*'
   TooGenericExceptionThrown:
     active: true
+    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**']
     exceptionNames:
       - 'Error'
       - 'Exception'
@@ -571,7 +572,7 @@ style:
     active: false
     includeLineWrapping: false
   ForbiddenAnnotation:
-    active: false
+    active: true
     annotations:
       - reason: 'it is a java annotation. Use `Suppress` instead.'
         value: 'java.lang.SuppressWarnings'
@@ -649,6 +650,7 @@ style:
     maxChainedCalls: 5
   MaxLineLength:
     active: true
+    ignoreAnnotated: ['Test']
     maxLineLength: 120
     excludePackageStatements: true
     excludeImportStatements: true
