@@ -17,8 +17,10 @@
 *   **Apollo**  GraphQL: For interacting with the GitHub GraphQL API.
 *   **Coil**: For image loading.
 *   **Timber**: For logging.
-*   **Detekt & Spotless**: For code quality.
-*   **Danger** (Work In Progress): For giving PR insight and niceties
+*   **Quality Tools**:
+  *   **Detekt & Spotless**: For code quality & code style.
+  *   **Custom Lint Rules**: To enforce code guidelines.
+  *   **Danger**: For giving PR insight and review niceties
 
    </td>
    <td>
@@ -166,13 +168,29 @@ This project uses [Bitrise](https://www.bitrise.io/) for CI/CD. The pipeline is 
 
 1.  **Code Quality Check**: This workflow runs the `./gradlew codeQualityCheck` task to ensure that the code adheres to the project's quality standards.
 2.  **Unit Tests**: This workflow runs all the unit tests in the project.
+3.  **Danger**: This workflow runs Danger to provide automated feedback on pull requests, checking for things like PR size, title conventions, and other project-specific rules.
 
 A pull request can only be merged if both of these workflows pass successfully.
 
 ### Danger
 
-The project is in the process of integrating [Danger](https://danger.systems/ruby/) to provide automated feedback on pull requests. Danger will be run in a Dockerized environment and will post comments on pull requests with information about test results, code style violations, and other useful metrics.
+The project uses [Danger](https://danger.systems/kotlin/) to provide automated feedback on pull requests.
+Danger post comments on pull requests with information about test results, code style violations, and other useful metrics.
+For local development, it can be run in a Dockerized environment. This approach ensures a consistent execution environment for Danger across different operating systems (e.g., Windows, macOS, Linux) and avoids the need for local setup of all the required dependencies.
 
-## 📄 License
+The Danger configuration is located in the `config/danger` directory. The `Dangerfile.df.kts` file contains the rules that are run on every pull request.
+
+#### Running Danger Locally
+
+To run Danger locally, you need to have [Docker installed](https://docs.docker.com/get-started/get-docker/).
+
+```bash
+  ./config/danger/local/run_danger_local.sh
+```
+
+Danger compares your current branch against `origin/main` and generates a report detailing the feedback you would receive when opening a Pull Request.
+The report is located at `config/danger/local/output`.
+
+## 📄 License 
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
