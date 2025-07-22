@@ -126,7 +126,7 @@ private fun RepositoriesContent(
     modifier: Modifier = Modifier,
     onClickRepository: (RepositoryViewState) -> Unit,
 ) {
-    val isVisible by remember { derivedStateOf { viewState.value.repositories.isNotEmpty() }}
+    val isVisible by remember { derivedStateOf { viewState.value.repositories.isNotEmpty() } }
 
     AnimatedVisibility(
         modifier = modifier,
