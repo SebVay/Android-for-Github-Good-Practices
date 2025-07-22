@@ -8,7 +8,7 @@ import com.github.app.domain.contract.Repository as ContractRepository
 internal interface TrendingRepositoryMapper : (ContractRepository) -> Repository
 
 internal class TrendingRepositoryMapperImpl(
-    val languageMapper: LanguageMapper,
+    private val languageMapper: LanguageMapper,
 ) : TrendingRepositoryMapper {
     override fun invoke(contractRepository: ContractRepository): Repository {
         val languages = contractRepository.languages
@@ -30,7 +30,7 @@ internal class TrendingRepositoryMapperImpl(
             openGraphImageUrl = contractRepository.openGraphImageUrl,
             languages = languages
                 .map { contractLanguage -> languageMapper.map(totalBytes, contractLanguage) }
-                .sortedBy(Language::weight),
+                .sortedByDescending(Language::weight),
         )
     }
 }

@@ -2,14 +2,14 @@
    <tr>
    <td>
 
-   # 📱 Github & Good Practices App
-   This project is a sample Android application built to showcase my knowledge of Android development.
-   It's designed to be a living project, continuously updated to reflect the latest trends and technologies in the Android ecosystem.
-   
-   The application uses the [GitHub GraphQL API](https://docs.github.com/en/graphql) to search for and display information about repositories.
-   ## 🚀 Key Technologies
-   
-   This project is built with the following technologies:
+# 📱 Github & Good Practices App
+This project is a sample Android application built to showcase my knowledge of Android development.
+It's designed to be a living project, continuously updated to reflect the latest trends and technologies in the Android ecosystem.
+
+The application uses the [GitHub GraphQL API](https://docs.github.com/en/graphql) to search for and display information about repositories.
+## 🚀 Key Technologies
+
+This project is built with the following technologies:
 
 *   **Kotlin**: The primary programming language for the application.
 *   **Jetpack Compose**: For building the user interface.
@@ -18,9 +18,9 @@
 *   **Coil**: For image loading.
 *   **Timber**: For logging.
 *   **Quality Tools**:
-  *   **Detekt & Spotless**: For code quality & code style.
-  *   **Custom Lint Rules**: To enforce code guidelines.
-  *   **Danger**: For giving PR insight and review niceties
+   *   **Detekt & Spotless**: For code quality & code style.
+   *   **Custom Lint Rules**: To enforce code guidelines.
+   *   **Danger**: For giving PR insight and review niceties
 
    </td>
    <td>
@@ -40,7 +40,7 @@ First, you need to create a Classic GitHub Personal Access Token. Here's how:
 1. **Log in to your GitHub account, Navigate to Settings, Go to [Developer settings](https://github.com/settings/tokens)**
 2. **Generate a new token:** Click **Generate new token** and select **Generate new token (classic)**.
 3. **Configure your token & generate it:**
-    *   **Scopes:** For this project, you'll need to select the `repo` scope to allow access to repositories.
+   *   **Scopes:** For this project, you'll need to select the `repo` scope to allow access to repositories.
 
 Next, add the token to your `gradle.properties` file:
 
@@ -67,40 +67,40 @@ The project is divided into several modules, each with a specific responsibility
 
 ```mermaid
 graph TD
-    subgraph DataModules["Data Modules"]
-        data["data"]
-        data-apollo["data-apollo"]
-    end
+   subgraph DataModules["Data Modules"]
+      data["data"]
+      data-apollo["data-apollo"]
+   end
 
-    subgraph DomainModules["Domain Modules"]
-        domain["domain"]
-    end
+   subgraph DomainModules["Domain Modules"]
+      domain["domain"]
+   end
 
-    subgraph CoreModules["Core Modules"]
-        core-viewmodel["core:viewmodel"]
-        core-ui-theme["core:ui:theme"]
-        core-ui-navigation["core:ui:navigation"]
-        core-ui-component["core:ui:component"]
-    end
+   subgraph CoreModules["Core Modules"]
+      core-viewmodel["core:viewmodel"]
+      core-ui-theme["core:ui:theme"]
+      core-ui-navigation["core:ui:navigation"]
+      core-ui-component["core:ui:component"]
+   end
 
-    subgraph UIModules["UI Modules"]
-        repo["repo"]
-        any-other-ui-modules["any-other-ui-modules"]
-    end
+   subgraph UIModules["UI Modules"]
+      repo["repo"]
+      any-other-ui-modules["any-other-ui-modules"]
+   end
 
-    app["app"]
-    domain-contract["domain-contract"]
+   app["app"]
+   domain-contract["domain-contract"]
 %% Connections
-    app --> UIModules
-    app --> DomainModules
-    app --> DataModules
+   app --> UIModules
+   app --> DomainModules
+   app --> DataModules
 %% UI Modules connections
-    UIModules --> CoreModules
-    UIModules --> DomainModules
+   UIModules --> CoreModules
+   UIModules --> DomainModules
 %% Domain contract connections
-    DomainModules --> domain-contract
-    DataModules --> domain-contract
-    data --> data-apollo
+   DomainModules --> domain-contract
+   DataModules --> domain-contract
+   data --> data-apollo
 ```
 
 ### Module Descriptions
@@ -170,12 +170,13 @@ This project uses [Bitrise](https://www.bitrise.io/) for CI/CD. The pipeline is 
 2.  **Unit Tests**: This workflow runs all the unit tests in the project.
 3.  **Danger**: This workflow runs Danger to provide automated feedback on pull requests, checking for things like PR size, title conventions, and other project-specific rules.
 
-A pull request can only be merged if both of these workflows pass successfully.
+A pull request can only be merged if these workflows pass successfully.
 
 ### Danger
 
 The project uses [Danger](https://danger.systems/kotlin/) to provide automated feedback on pull requests.
 Danger post comments on pull requests with information about test results, code style violations, and other useful metrics.
+
 For local development, it can be run in a Dockerized environment. This approach ensures a consistent execution environment for Danger across different operating systems (e.g., Windows, macOS, Linux) and avoids the need for local setup of all the required dependencies.
 
 The Danger configuration is located in the `config/danger` directory. The `Dangerfile.df.kts` file contains the rules that are run on every pull request.
@@ -191,6 +192,6 @@ To run Danger locally, you need to have [Docker installed](https://docs.docker.c
 Danger compares your current branch against `origin/main` and generates a report detailing the feedback you would receive when opening a Pull Request.
 The report is located at `config/danger/local/output`.
 
-## 📄 License 
+## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

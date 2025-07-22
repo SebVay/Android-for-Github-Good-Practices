@@ -2,8 +2,11 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.getByType
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 
 /**
  * A convention plugin that applies the compose configurations needed by Android modules (Application and Library).
@@ -60,6 +63,11 @@ class AndroidComposeConventionPlugin : Plugin<Project> {
                     // Good library that adds lint checks to compose modules: https://github.com/slackhq/compose-lints
                     "lintChecks"(libs.findLibrary("compose-lint-checks").get())
                 }
+            }
+
+            composeCompiler {
+                reportsDestination.set(project.layout.buildDirectory.dir("reports/compose-reports"))
+                metricsDestination.set(project.layout.buildDirectory.dir("reports/compose-metrics"))
             }
 
             /**

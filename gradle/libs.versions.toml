@@ -80,6 +80,7 @@ lint-tests = { group = "com.android.tools.lint", name = "lint-tests", version.re
 # Used by the build-logic module
 android-build-tools = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 # Junit & Tests
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junitBom" }

@@ -24,6 +24,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,7 +49,6 @@ import com.github.app.ui.repo.compose.component.card.RepositoryCard
 import com.github.app.ui.repo.screen.state.FilterButtonViewState
 import com.github.app.ui.repo.screen.state.RepositoriesScreenViewState
 import com.github.app.ui.repo.screen.state.RepositoryViewState
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import org.koin.androidx.compose.koinViewModel
 
@@ -107,12 +109,9 @@ private fun Content(
             }
         }
 
-        val repositories = viewState.value.repositories
-
         RepositoriesContent(
             modifier = Modifier
                 .padding(innerPadding),
-            repositories = repositories,
             viewState = viewState,
             onFilterButtonClick = onFilterButtonClick,
             onClickRepository = onClickRepository,
@@ -122,15 +121,16 @@ private fun Content(
 
 @Composable
 private fun RepositoriesContent(
-    repositories: ImmutableList<RepositoryViewState>,
     viewState: State<RepositoriesScreenViewState>,
     onFilterButtonClick: (FilterButtonViewState) -> Unit,
     modifier: Modifier = Modifier,
     onClickRepository: (RepositoryViewState) -> Unit,
 ) {
+    val isVisible by remember { derivedStateOf { viewState.value.repositories.isNotEmpty() }}
+
     AnimatedVisibility(
         modifier = modifier,
-        visible = repositories.isNotEmpty(),
+        visible = isVisible,
         enter = fadeIn(tween()) + scaleIn(tween(), INITIAL_SCALE_ANIM),
     ) {
         LazyVerticalGrid(
@@ -160,9 +160,9 @@ private fun RepositoriesContent(
             }
 
             items(
-                items = repositories,
+                items = viewState.value.repositories,
                 contentType = { "RepositoryCard" },
-                key = { it.id },
+                key = RepositoryViewState::id,
             ) { repository ->
                 Box(
                     Modifier
