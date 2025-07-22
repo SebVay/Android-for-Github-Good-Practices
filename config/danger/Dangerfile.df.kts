@@ -10,6 +10,10 @@ danger(args) {
     val changelogChanged = allSourceFiles.contains("CHANGELOG.md")
     val sourceChanges = allSourceFiles.firstOrNull { it.contains("src") }
 
+    onGit {
+        message("I'm a bot and that's my first message with a Git context")
+    }
+
     onGitHub {
         message("I'm a bot and that's my first message with a Github context")
 

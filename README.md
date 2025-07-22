@@ -185,12 +185,12 @@ The Danger configuration is located in the `config/danger` directory. The `Dange
 To run Danger locally, you need to have [Docker installed](https://docs.docker.com/get-started/get-docker/).
 
 ```bash
-  ./config/danger/run_danger_local.sh
+  ./config/danger/local/run_danger_local.sh
 ```
 
 Danger compares your current branch against `origin/main` and generates a report detailing the feedback you would receive when opening a Pull Request.
-The report is located at `config/danger/output`.
+The report is located at `config/danger/local/output`.
 
-## 📄 License
+## 📄 License 
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

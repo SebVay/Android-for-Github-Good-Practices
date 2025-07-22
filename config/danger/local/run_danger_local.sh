@@ -13,13 +13,13 @@
 # shellcheck disable=SC2164
 
 script_path="$(cd "$(dirname "$0")" && pwd)"
-project_root="$script_path"/../../
+project_root="$script_path"/../../../
 
 cd "$project_root"
 
 docker rm extract-json-container
 
-docker build --no-cache -f config/danger/Dockerfile -t local-danger-kotlin .
+docker build -f config/danger/local/Dockerfile -t local-danger-kotlin .
 docker create --name extract-json-container local-danger-kotlin
 docker cp extract-json-container:/output "$script_path"
 docker rm extract-json-container
