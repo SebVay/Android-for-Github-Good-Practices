@@ -4,20 +4,20 @@ androidMinSdk = "24"
 androidTargetSdk = "36"
 androidTools = "31.11.1"
 javaVersion = "17"
-kotest = "5.8.1"
+kotest = "5.9.1"
 
 composeLintChecks = "1.4.2"
 coreKtx = "1.16.0"
 lifecycleRuntimeKtx = "2.9.2"
 activityKtx = "1.10.1"
-junitBom = "5.13.3"
+junitBom = "5.13.4"
 composeBom = "2025.07.00"
 androidx-navigation = "2.9.2"
 koin = "4.1.0"
 kotlinxCollectionsImmutable = "0.4.0"
 kotlinxDatetime = "0.7.1"
 kotlinxCoroutines = "1.10.2"
-coil = "3.2.0"
+coil = "3.3.0"
 material = "1.12.0"
 mockk = "1.14.5"
 timber = "5.0.1"
@@ -80,6 +80,7 @@ lint-tests = { group = "com.android.tools.lint", name = "lint-tests", version.re
 # Used by the build-logic module
 android-build-tools = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 # Junit & Tests
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junitBom" }

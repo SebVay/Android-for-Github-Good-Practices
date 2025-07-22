@@ -62,6 +62,11 @@ class AndroidComposeConventionPlugin : Plugin<Project> {
                 }
             }
 
+            composeCompiler {
+                reportsDestination.set(project.layout.buildDirectory.dir("reports/compose-reports"))
+                metricsDestination.set(project.layout.buildDirectory.dir("reports/compose-metrics"))
+            }
+
             /**
              * After the project is evaluated, check if Koin is used as a dependency.
              * If Koin is present, adds the "koin-compose-viewmodel-navigation" dependency.

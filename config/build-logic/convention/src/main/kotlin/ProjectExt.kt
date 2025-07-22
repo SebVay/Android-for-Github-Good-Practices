@@ -5,6 +5,7 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 
 /**
  * Provides the `androidConfig {}` block in a graceful way.
@@ -26,7 +27,7 @@ internal fun Project.androidConfig(block: CommonExtension<*, *, *, *, *, *>.() -
  * Provides the `spotless {}` block in a graceful way.
  */
 internal fun Project.spotless(block: SpotlessExtension.() -> Unit) {
-    extensions.configure(SpotlessExtension::class.java) {
+    extensions.configure<SpotlessExtension> {
         block()
     }
 }
@@ -35,7 +36,16 @@ internal fun Project.spotless(block: SpotlessExtension.() -> Unit) {
  * Provides the `detekt {}` block in a graceful way.
  */
 internal fun Project.detekt(block: DetektExtension.() -> Unit) {
-    extensions.configure(DetektExtension::class.java) {
+    extensions.configure<DetektExtension> {
+        block()
+    }
+}
+
+/**
+ * Provides the `composeCompiler {}` block in a graceful way.
+ */
+internal fun Project.composeCompiler(block: ComposeCompilerGradlePluginExtension.() -> Unit) {
+    extensions.configure<ComposeCompilerGradlePluginExtension> {
         block()
     }
 }

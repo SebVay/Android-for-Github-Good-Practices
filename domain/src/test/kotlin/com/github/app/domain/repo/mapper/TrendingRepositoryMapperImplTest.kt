@@ -42,7 +42,7 @@ class TrendingRepositoryMapperImplTest {
     }
 
     @Test
-    fun `verify languages are mapped to domain and sorted by their weight`() {
+    fun `verify languages are mapped to domain and sorted from the largest to smallest`() {
         val totalWeight = 6
         val givenLanguage1 = mockk<ContractLanguage>().apply { every { size } returns 1 }
         val givenLanguage2 = mockk<ContractLanguage>().apply { every { size } returns 2 }
@@ -61,10 +61,11 @@ class TrendingRepositoryMapperImplTest {
 
         val repository = mapper(contractRepository)
 
+        // Languages are sorted from the largest to smallest
         repository.languages shouldContainInOrder listOf(
-            expectedSmallLanguage,
-            expectedMediumLanguage,
             expectedLargeLanguage,
+            expectedMediumLanguage,
+            expectedSmallLanguage,
         )
     }
 

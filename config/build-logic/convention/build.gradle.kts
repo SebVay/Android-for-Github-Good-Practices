@@ -22,6 +22,7 @@ dependencies {
     compileOnly(libs.kotlin.gradle.plugin)
     compileOnly(libs.spotless.gradle)
     compileOnly(libs.detekt.gradle)
+    compileOnly(libs.compose.compiler.gradle.plugin)
 }
 
 gradlePlugin {
