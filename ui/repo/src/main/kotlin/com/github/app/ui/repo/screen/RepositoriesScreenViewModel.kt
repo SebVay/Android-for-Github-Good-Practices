@@ -4,6 +4,7 @@ import com.github.app.core.viewmodel.AppViewModel
 import com.github.app.domain.repo.usecase.GetTrendingRepositoriesUseCase
 import com.github.app.domain.repo.usecase.TimePeriod
 import com.github.app.ui.repo.mapper.RepositoryViewStateMapper
+import com.github.app.ui.repo.screen.placeholder.ScreenPlaceholder
 import com.github.app.ui.repo.screen.state.FilterButtonViewState
 import com.github.app.ui.repo.screen.state.FilterType
 import com.github.app.ui.repo.screen.state.RepositoriesScreenViewState
@@ -50,7 +51,7 @@ internal class RepositoriesScreenViewModel(
     }
 
     override fun onClickRepository(repositoryViewState: RepositoryViewState) {
-        navigationController.navigateTo(RepositoriesScreen2)
+        navigationController.navigateTo(ScreenPlaceholder)
     }
 
     override fun onClickFilterButton(filterButtonViewState: FilterButtonViewState) {

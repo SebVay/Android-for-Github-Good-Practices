@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.github.app.core.ui.navigation.screen.Screen
 import com.github.app.ui.repo.screen.RepositoriesScreen
-import com.github.app.ui.repo.screen.RepositoriesScreen2
+import com.github.app.ui.repo.screen.placeholder.ScreenPlaceholder
 
 /**
  * Composable function that defines the navigation graph of the application.
@@ -31,8 +31,8 @@ fun Graph() {
             RepositoriesScreen.Content()
         }
 
-        composable(RepositoriesScreen2.screenRoute) {
-            RepositoriesScreen2.Content()
+        composable(ScreenPlaceholder.screenRoute) {
+            ScreenPlaceholder.Content()
         }
     }
 }

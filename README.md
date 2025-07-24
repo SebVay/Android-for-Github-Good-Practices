@@ -7,6 +7,14 @@ This project is a sample Android application built to showcase my knowledge of A
 It's designed to be a living project, continuously updated to reflect the latest trends and technologies in the Android ecosystem.
 
 The application uses the [GitHub GraphQL API](https://docs.github.com/en/graphql) to search for and display information about repositories.
+
+## 📝 Project Management
+
+This project's backlog is managed on Trello. It's inspired by agile methodologies, similar to what you might find in a professional development environment. 
+You can view the board to see the current work in progress and what's planned for the future.
+
+[➡️ View the Trello Backlog](https://trello.com/b/GKJxWpSP/)
+
 ## 🚀 Key Technologies
 
 This project is built with the following technologies:

@@ -15,7 +15,7 @@ import androidx.compose.runtime.Stable
  */
 @Stable
 sealed class UiState<out T> {
-    object Loading : UiState<Nothing>()
+    data object Loading : UiState<Nothing>()
 
     data class Success<out T>(val data: T) : UiState<T>()
 
@@ -23,7 +23,7 @@ sealed class UiState<out T> {
      * Represents a state where the data is empty or not found.
      * This is useful for scenarios like an empty list or a search returning no results.
      */
-    object Empty : UiState<Nothing>()
+    data object Empty : UiState<Nothing>()
 
-    object Error : UiState<Nothing>()
+    data object Error : UiState<Nothing>()
 }
