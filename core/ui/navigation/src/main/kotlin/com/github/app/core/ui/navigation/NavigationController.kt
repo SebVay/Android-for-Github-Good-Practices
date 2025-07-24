@@ -57,6 +57,7 @@ internal class NavigationControllerImpl(
         }
     }
 
+    @Suppress("InjectDispatcher")
     companion object {
         private const val COROUTINE_NAME = "NavigationControllerCoroutine"
         private val defaultScope: CoroutineScope = CoroutineScope(

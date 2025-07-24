@@ -13,8 +13,8 @@ import kotlinx.collections.immutable.ImmutableList
 @Composable
 fun RepositoryFilterButtons(
     filterButtons: ImmutableList<FilterButtonViewState>,
-    modifier: Modifier = Modifier,
     onFilterButtonClick: (FilterButtonViewState) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     SingleChoiceSegmentedButtonRow(modifier) {
         filterButtons.forEachIndexed { index, filterButton ->

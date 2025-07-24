@@ -128,8 +128,8 @@ private fun StateContent(
 private fun RepositoriesContent(
     viewState: State<RepositoriesScreenViewState>,
     onFilterButtonClick: (FilterButtonViewState) -> Unit,
-    modifier: Modifier = Modifier,
     onClickRepository: (RepositoryViewState) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val isVisible by viewState.rememberStateValue { repositories.isNotEmpty() }
 

@@ -26,9 +26,9 @@ This project is built with the following technologies:
 *   **Coil**: For image loading.
 *   **Timber**: For logging.
 *   **Quality Tools**:
-   *   **Detekt & Spotless**: For code quality & code style.
-   *   **Custom Lint Rules**: To enforce code guidelines.
-   *   **Danger**: For giving PR insight and review niceties
+    *   **Detekt & Spotless**: For code quality & code style.
+    *   **Custom Lint Rules**: To enforce code guidelines.
+    *   **Danger**: For giving PR insight and review niceties
 
    </td>
    <td>
@@ -169,6 +169,12 @@ To automatically format the code, you can run the following command:
 ```
 
 It is recommended to run this command before pushing any changes to the repository.
+
+### Plugins
+Extra specialized tools has also been added for Jetpack Compose:
+
+*   **[Compose Rules for Detekt](https://mrmans0n.github.io/compose-rules/detekt/)**
+*   **[Compose Rules for Lints](https://slackhq.github.io/compose-lints/)**
 
 ## 🤖 CI/CD
 
