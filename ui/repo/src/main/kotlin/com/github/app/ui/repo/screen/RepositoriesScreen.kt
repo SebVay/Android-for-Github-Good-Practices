@@ -24,9 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,8 +39,11 @@ import com.github.app.core.ui.component.topappbar.AppTopAppBar
 import com.github.app.core.ui.navigation.screen.Screen
 import com.github.app.core.ui.theme.GithubAppDimens.Padding
 import com.github.app.core.ui.theme.GithubAppTheme
-import com.github.app.core.viewmodel.UiState
+import com.github.app.core.viewmodel.UiState.Empty
+import com.github.app.core.viewmodel.UiState.Error
 import com.github.app.core.viewmodel.UiState.Loading
+import com.github.app.core.viewmodel.UiState.Success
+import com.github.app.core.viewmodel.rememberStateValue
 import com.github.app.ui.repo.R
 import com.github.app.ui.repo.compose.component.button.RepositoryFilterButtons
 import com.github.app.ui.repo.compose.component.card.RepositoryCard
@@ -93,21 +94,10 @@ private fun Content(
             )
         },
     ) { innerPadding ->
-        AnimatedContent(
-            modifier = Modifier.padding(innerPadding),
-            targetState = viewState.value.currentState,
-            transitionSpec = { fadeIn() togetherWith fadeOut() },
-        ) { targetState ->
-            when (targetState) {
-                is UiState.Success -> {
-                    // Nothing
-                }
-
-                UiState.Error -> ErrorState()
-                Loading -> LoadingState()
-                UiState.Empty -> EmptyState()
-            }
-        }
+        StateContent(
+            viewState = viewState,
+            innerPadding = innerPadding,
+        )
 
         RepositoriesContent(
             modifier = Modifier
@@ -120,19 +110,45 @@ private fun Content(
 }
 
 @Composable
+private fun StateContent(
+    viewState: State<RepositoriesScreenViewState>,
+    innerPadding: PaddingValues,
+) {
+    val currentState by viewState.rememberStateValue { currentState }
+
+    AnimatedContent(
+        modifier = Modifier.padding(innerPadding),
+        targetState = currentState,
+        transitionSpec = { fadeIn() togetherWith fadeOut() },
+    ) { targetState ->
+        when (targetState) {
+            is Success -> {
+                // Nothing
+            }
+
+            Error -> ErrorState()
+            Loading -> LoadingState()
+            Empty -> EmptyState()
+        }
+    }
+}
+
+@Composable
 private fun RepositoriesContent(
     viewState: State<RepositoriesScreenViewState>,
     onFilterButtonClick: (FilterButtonViewState) -> Unit,
     modifier: Modifier = Modifier,
     onClickRepository: (RepositoryViewState) -> Unit,
 ) {
-    val isVisible by remember { derivedStateOf { viewState.value.repositories.isNotEmpty() } }
+    val isVisible by viewState.rememberStateValue { repositories.isNotEmpty() }
 
     AnimatedVisibility(
         modifier = modifier,
         visible = isVisible,
         enter = fadeIn(tween()) + scaleIn(tween(), INITIAL_SCALE_ANIM),
     ) {
+        val repositories by viewState.rememberStateValue { repositories }
+
         LazyVerticalGrid(
             modifier = Modifier
                 .fillMaxSize(),
@@ -152,15 +168,17 @@ private fun RepositoriesContent(
                 ) {
                     AppTitleLarge(stringResource(R.string.trending_repositories))
 
+                    val filterButtons by viewState.rememberStateValue { filterButtons }
+
                     RepositoryFilterButtons(
-                        filterButtons = viewState.value.filterButtons,
+                        filterButtons = filterButtons,
                         onFilterButtonClick = onFilterButtonClick,
                     )
                 }
             }
 
             items(
-                items = viewState.value.repositories,
+                items = repositories,
                 contentType = { "RepositoryCard" },
                 key = RepositoryViewState::id,
             ) { repository ->
@@ -296,7 +314,7 @@ internal fun RepositoriesScreenPreviewEmptyState() {
         Content(
             viewState = rememberUpdatedState(
                 RepositoriesScreenViewState.initialState()
-                    .copy(currentState = UiState.Empty),
+                    .copy(currentState = Empty),
             ),
             onClickRepository = {
                 // Empty
