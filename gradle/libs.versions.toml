@@ -29,6 +29,7 @@ kotlinSerialization = "2.2.0"
 apollo = "4.3.1"
 spotless = "7.1.0"
 detekt = "1.23.8"
+detektCompose = "0.4.26"
 gradleVersionPlugin = "0.52.0"
 # Ktlint version is used by spotless, latest -> https://github.com/pinterest/ktlint
 ktlint = "1.7.0"
@@ -69,8 +70,7 @@ koin = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose-viewmodel-navigation = { module = "io.insert-koin:koin-androidx-compose-navigation", version.ref = "koin" }
 spotless-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
-kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
-kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+detekt-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektCompose" }
 
 # Lint
 lint-api = { group = "com.android.tools.lint", name = "lint-api", version.ref = "androidTools" }
@@ -87,6 +87,8 @@ junit-bom = { module = "org.junit:junit-bom", version.ref = "junitBom" }
 junit-jupiter-core = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -101,10 +103,9 @@ spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 gradle-version = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionPlugin" }
 
-
 # Those are the Convention Plugins defined by the project in `/tools/build-logic:convention`.
 convention-config = { id = "githubapp.convention.config" }
 convention-dependencies = { id = "githubapp.convention.dependencies" }
 convention-compose = { id = "githubapp.convention.compose" }
 convention-ui-module = { id = "githubapp.convention.ui.module" }
-convention-code-quality = { id = "githubapp.convention.code.quality"}
+convention-code-quality = { id = "githubapp.convention.code.quality" }

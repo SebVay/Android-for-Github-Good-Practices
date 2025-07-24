@@ -4,6 +4,7 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
 /**
@@ -42,19 +43,20 @@ class CodeQualityConventionPlugin : Plugin<Project> {
                 buildUponDefaultConfig = true
             }
 
+            dependencies {
+                "detektPlugins"(libs.findLibrary("detekt-compose").get())
+            }
+
             /**
              * This task is used to run all the code quality checks in one go (Spotless, Lint and Detekt).
              *
-             * Lint is only available for Android modules, so it is added conditionally.
              * It can be run by executing `./gradlew codeQualityCheck`
              */
             tasks.register("codeQualityCheck") {
                 group = "verification"
                 description = "Runs Spotless, Lint and Detekt"
 
-                dependsOn("spotlessCheck", "detekt")
-
-                project.tasks.findByName("lint")?.let { dependsOn(it) }
+                dependsOn("spotlessCheck", "detektDebug", "lintRelease")
             }
         }
     }

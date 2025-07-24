@@ -1,13 +1,11 @@
 package com.github.app.core.ui.theme
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
 
 private val LightColorScheme = lightColorScheme(
     primary = lightGithubAppColors.brandPrimary,
@@ -41,7 +39,6 @@ fun GithubAppTheme(
 
     CompositionLocalProvider(
         LocalColors provides githubAppColors,
-        LocalStatusBarTheme provides StatusBarTheme.DEFAULT,
     ) {
         MaterialTheme(
             colorScheme = materialColorScheme,
@@ -50,12 +47,3 @@ fun GithubAppTheme(
         )
     }
 }
-
-enum class StatusBarTheme {
-    DEFAULT,
-    DARK,
-    LIGHT,
-}
-
-@SuppressLint("ComposeCompositionLocalUsage")
-val LocalStatusBarTheme = compositionLocalOf { StatusBarTheme.DEFAULT }
