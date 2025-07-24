@@ -5,7 +5,6 @@ import androidx.compose.runtime.DisallowComposableCalls
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
-import kotlin.reflect.KProperty
 
 /**
  * Remembers and observes a specific value derived from an [AppViewState].
@@ -29,20 +28,3 @@ inline fun <VS : AppViewState, Value> State<VS>.rememberStateValue(
 ): State<Value> {
     return remember { derivedStateOf { value.viewStateValue() } }
 }
-
-/**
- * Enables property delegation for [AppViewState] using the `by` keyword.
- * Should be used in conjunction with the `rememberStateValue` function.
- *
- * Example:
- * ```kotlin
- * val aValue by viewState.rememberStateValue { aValue }
- * ```
- *
- * @param VS The type of the [AppViewState].
- * @param thisObj The object instance that owns the delegated property (can be null for top-level properties).
- * @param property The metadata of the delegated property.
- * @return The current value of the [AppViewState] held within the [State].
- */
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun <VS : AppViewState> State<VS>.getValue(thisObj: Any?, property: KProperty<*>): VS = value

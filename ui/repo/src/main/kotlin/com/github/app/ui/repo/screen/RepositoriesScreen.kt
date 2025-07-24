@@ -68,16 +68,6 @@ object RepositoriesScreen : Screen(ROUTE) {
     }
 }
 
-// Going to be removed
-@Stable
-object RepositoriesScreen2 : Screen(ROUTE + "2") {
-
-    @Composable
-    override fun Content() {
-        // Empty
-    }
-}
-
 @Composable
 private fun Content(
     viewState: State<RepositoriesScreenViewState>,
@@ -95,8 +85,9 @@ private fun Content(
         },
     ) { innerPadding ->
         StateContent(
+            modifier = Modifier
+                .padding(innerPadding),
             viewState = viewState,
-            innerPadding = innerPadding,
         )
 
         RepositoriesContent(
@@ -112,12 +103,12 @@ private fun Content(
 @Composable
 private fun StateContent(
     viewState: State<RepositoriesScreenViewState>,
-    innerPadding: PaddingValues,
+    modifier: Modifier = Modifier,
 ) {
     val currentState by viewState.rememberStateValue { currentState }
 
     AnimatedContent(
-        modifier = Modifier.padding(innerPadding),
+        modifier = modifier,
         targetState = currentState,
         transitionSpec = { fadeIn() togetherWith fadeOut() },
     ) { targetState ->
