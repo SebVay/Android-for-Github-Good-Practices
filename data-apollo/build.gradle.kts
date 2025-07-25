@@ -34,7 +34,7 @@ private fun Project.githubToken(): String {
         .orEmpty()
         .also {
             if (it.isEmpty()) {
-                println("GITHUB_TOKEN NOT FOUND")
+                error("GITHUB_TOKEN NOT FOUND. The `github.token` gradle key is mandatory to build the project.")
             }
         }
 }

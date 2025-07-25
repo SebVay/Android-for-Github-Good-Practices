@@ -56,7 +56,7 @@ class CodeQualityConventionPlugin : Plugin<Project> {
                 group = "verification"
                 description = "Runs Spotless, Lint and Detekt"
 
-                dependsOn("spotlessCheck", "detektDebug", "lintRelease")
+                dependsOn("spotlessCheck", "detektDebug", "lintDebug")
             }
         }
     }

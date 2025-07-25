@@ -39,7 +39,19 @@ This project is built with the following technologies:
 
 ## 🏁 Getting Started
 
-To get started with this project, you'll currently need to add a GitHub personal token to the `gradle.properties`.
+First, clone the repository to your local machine:
+
+```bash
+git clone git@github.com:YourUserName/Android-for-Github-Good-Practices.git
+```
+
+Next, to ensure proper git workflow, please run the following command to set up the git hooks:
+
+```bash
+git config core.hooksPath .config/git-hooks
+```
+
+Finally, you'll need to add a GitHub personal token to the `gradle.properties` file.
 
 ### Create a Personal Access Token
 

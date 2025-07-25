@@ -1,0 +1,52 @@
+#!/bin/sh
+
+# Please execute the command line below in order to execute this script automatically
+# each time a push is done in the repositoryName in order to change the default folder for hooks
+# `git config core.hooksPath .\config\git-hooks\`
+#
+# This hook is called with the following parameters:
+# $1 -- Name of the remote to which the push is being done
+# $2 -- URL to which the push is being done
+
+# Color sugaring
+red=$(tput setaf 1)
+green=$(tput setaf 2)
+yellow=$(tput setaf 3)
+reset=$(tput sgr0)
+clear=$(tput clear)
+
+repositoryName="$(basename "$2")"
+remoteName=$1
+currentBranch=$(git branch --show-current)
+
+introMessage="${green}Running code quality checks before pushing to${reset} ${repositoryName} ${red}${remoteName}${reset}/${red}${currentBranch}${reset}\n\n"
+
+printf "\n\n"
+printf "$introMessage"
+
+./gradlew codeQualityCheck
+EXIT_CODE=$?
+
+printf "\n\n"
+
+if [ $EXIT_CODE -ne 0 ];
+then
+  printf "${yellow}"
+  printf "*************************************************\n"
+  printf "*             Quality checks Failed             *\n"
+  printf "*  Please fix the above issues before pushing   *\n"
+  printf "*************************************************\n"
+else
+  printf "${clear}"
+  printf "\n\n"
+  printf "$introMessage"
+  printf "${green}"
+  printf "**************************************************\n"
+  printf "*             Quality checks Succeed             *\n"
+  printf "**************************************************\n"
+fi
+
+printf "${reset}\n\n"
+
+exit $EXIT_CODE
+
