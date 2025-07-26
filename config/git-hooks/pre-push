@@ -42,7 +42,9 @@ else
   printf "$introMessage"
   printf "${green}"
   printf "**************************************************\n"
+  printf "*                                                *\n"
   printf "*             Quality checks Succeed             *\n"
+  printf "*                                                *\n"
   printf "**************************************************\n"
 fi
 
