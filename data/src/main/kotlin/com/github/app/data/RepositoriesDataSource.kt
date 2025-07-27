@@ -10,7 +10,9 @@ interface RepositoriesDataSource {
 internal class RepositoriesDataSourceImpl(
     private val apolloRepositoryDataSource: ApolloRepositoryDataSource,
 ) : RepositoriesDataSource {
-    override suspend fun getRepositories(query: String): List<RepoEntity> {
+    override suspend fun getRepositories(
+        query: String,
+    ): List<RepoEntity> {
         return apolloRepositoryDataSource.getRepositories(query)
     }
 }
