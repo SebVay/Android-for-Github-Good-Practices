@@ -44,7 +44,7 @@ object ShouldUseCustomComposableIssue {
     }
 
     private class ShouldUseCustomComposableHandler(
-        private val context: JavaContext
+        private val context: JavaContext,
     ) : UElementHandler() {
 
         override fun visitFile(node: UFile) {
@@ -100,10 +100,10 @@ object ShouldUseCustomComposableIssue {
             return importReference?.asSourceString().orEmpty().startsWith(MATERIAL3)
         }
     }
-
-    private const val THEME_MODULE = "theme"
-    private const val COMPONENT_MODULE = "component"
-    private val ALLOWED_MODULES = arrayOf(THEME_MODULE, COMPONENT_MODULE)
-    private const val MATERIAL3 = "androidx.compose.material3"
-    private const val SCAFFOLD_QUALIFIED_NAME = "$MATERIAL3.Scaffold"
 }
+
+private const val THEME_MODULE = "theme"
+private const val COMPONENT_MODULE = "component"
+private val ALLOWED_MODULES = arrayOf(THEME_MODULE, COMPONENT_MODULE)
+private const val MATERIAL3 = "androidx.compose.material3"
+private const val SCAFFOLD_QUALIFIED_NAME = "$MATERIAL3.Scaffold"
