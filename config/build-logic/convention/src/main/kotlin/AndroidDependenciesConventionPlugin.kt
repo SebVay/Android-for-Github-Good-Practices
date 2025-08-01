@@ -22,6 +22,11 @@ class AndroidDependenciesConventionPlugin : Plugin<Project> {
 
             androidConfig {
                 dependencies {
+                    val koinBom = platform(libs.findLibrary("koin-bom").get())
+
+                    "androidTestImplementation"(koinBom)
+                    "implementation"(koinBom)
+
                     "implementation"(libs.findLibrary("timber").get())
                     "implementation"(libs.findLibrary("koin").get())
 
@@ -37,6 +42,8 @@ class AndroidDependenciesConventionPlugin : Plugin<Project> {
                     "testImplementation"(libs.findLibrary("kotest-runner-junit5").get())
                     "testImplementation"(libs.findLibrary("kotest-assertions-core").get())
                     "testImplementation"(libs.findLibrary("kotlinx-coroutines-test").get())
+                    "testImplementation"(libs.findLibrary("turbine").get())
+                    "testImplementation"(libs.findLibrary("koin-test-junit5").get())
                 }
 
                 tasks.withType<Test> {

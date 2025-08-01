@@ -15,7 +15,9 @@ import kotlinx.datetime.minus
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 
-fun interface GetTrendingRepositoriesUseCase : suspend (TimePeriod) -> Result<List<Repository>>
+fun interface GetTrendingRepositoriesUseCase {
+    suspend operator fun invoke(timePeriod: TimePeriod): Result<List<Repository>>
+}
 
 internal class GetTrendingRepositoriesUseCaseImpl(
     private val getTrendingRepositories: GetTrendingRepositories,

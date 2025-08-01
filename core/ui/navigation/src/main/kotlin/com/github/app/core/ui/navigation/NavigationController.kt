@@ -39,7 +39,7 @@ interface NavigationController {
 }
 
 internal class NavigationControllerImpl(
-    private val coroutineScope: CoroutineScope = defaultScope,
+    private val coroutineScope: CoroutineScope = DEFAULT_SCOPE,
 ) : NavigationController {
     private val _events = MutableSharedFlow<NavigationCommand>()
 
@@ -60,7 +60,7 @@ internal class NavigationControllerImpl(
     @Suppress("InjectDispatcher")
     companion object {
         private const val COROUTINE_NAME = "NavigationControllerCoroutine"
-        private val defaultScope: CoroutineScope = CoroutineScope(
+        private val DEFAULT_SCOPE: CoroutineScope = CoroutineScope(
             SupervisorJob() + Dispatchers.Default + CoroutineName(COROUTINE_NAME),
         )
     }

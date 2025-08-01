@@ -1,6 +1,7 @@
 package com.github.app.core.viewmodel
 
 import androidx.compose.runtime.Stable
+import com.github.app.core.viewmodel.UiState.Success
 
 /**
  * Represents the different states of a UI that interacts with data.

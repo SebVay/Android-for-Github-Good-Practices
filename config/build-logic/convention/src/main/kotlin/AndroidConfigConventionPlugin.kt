@@ -45,9 +45,8 @@ class AndroidConfigConventionPlugin : Plugin<Project> {
 
                 tasks.withType<KotlinCompile>().configureEach {
                     compilerOptions {
-                        jvmTarget.set(
-                            JvmTarget.fromTarget(libs.getVersionInt("javaVersion").toString())
-                        )
+                        jvmTarget.set(JvmTarget.fromTarget(libs.getVersionInt("javaVersion").toString()))
+                        freeCompilerArgs.add("-Xcontext-parameters")
                     }
                 }
 

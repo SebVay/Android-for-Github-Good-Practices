@@ -12,60 +12,64 @@ import com.github.app.ui.repo.screen.state.RepositoryViewState
 import kotlinx.collections.immutable.toImmutableList
 
 /**
- * Maps a list of [Repository] domain models to a list of [RepositoryViewState] UI models.
+ * Maps a [Repository] domain model to a corresponding [RepositoryViewState] UI model.
  */
-internal interface RepositoryViewStateMapper : (List<Repository>) -> List<RepositoryViewState>
+internal fun interface RepositoryViewStateMapper {
+    operator fun invoke(repository: Repository): RepositoryViewState
+}
 
 internal class RepositoryViewStateMapperImpl : RepositoryViewStateMapper {
-    override fun invoke(repositories: List<Repository>): List<RepositoryViewState> {
-        return repositories.map { repository ->
-            RepositoryViewState(
-                id = repository.id,
-                imageUrl = repository.ownerAvatarUrl,
-                name = repository.name,
-                description = repository.description,
-                stargazerCount = repository.stargazerCount,
-                forkCount = repository.forkCount,
-                issuesCount = repository.issueCount,
-                pullRequestsCount = repository.pullRequestCount,
-                discussionsCount = repository.discussionCount,
-                authorName = repository.ownerName,
-                languages = repository.languages.map { language ->
-                    LanguageViewState(
-                        name = language.name,
-                        color = language.toColor(),
-                        weight = language.weight,
-                    )
-                }.toImmutableList(),
-                languageLine = repository.languages.asLanguageLine(),
-            )
-        }.toImmutableList()
-    }
-
-    /**
-     * Transforms a list of [Language] domain models into a [LanguageLineViewState] UI model.
-     *
-     * This function calculates the progression of each language's weight and creates a
-     * [LanguageLineViewState] to represent the language distribution.
-     */
-    private fun List<Language>.asLanguageLine(): LanguageLineViewState? {
-        return if (isNotEmpty()) {
-            // Personal note:
-            // Functional approach (scan, reduce) could have been used here, but this is more readable IMO
-            var lastWeight = 0F
-            val map: List<LanguageProgressionViewState> = map { language ->
-                LanguageProgressionViewState(language.toColor(), lastWeight)
-                    .also { lastWeight += language.weight }
-            }
-
-            LanguageLineViewState(map.toImmutableList())
-        } else {
-            null
-        }
-    }
-
-    private fun Language.toColor(): LanguageColorViewState = when (val color = color) {
-        is CustomColor -> LanguageColorViewState.CustomColor(color.hexColor)
-        DefaultColor -> LanguageColorViewState.DefaultColor
+    override fun invoke(repository: Repository): RepositoryViewState {
+        return RepositoryViewState(
+            id = repository.id,
+            imageUrl = repository.ownerAvatarUrl,
+            name = repository.name,
+            description = repository.description,
+            stargazerCount = repository.stargazerCount,
+            forkCount = repository.forkCount,
+            issuesCount = repository.issueCount,
+            pullRequestsCount = repository.pullRequestCount,
+            discussionsCount = repository.discussionCount,
+            authorName = repository.ownerName,
+            languages = repository.languages.map { language ->
+                LanguageViewState(
+                    name = language.name,
+                    color = language.toColor(),
+                    weight = language.weight,
+                )
+            }.toImmutableList(),
+            languageLine = repository.languages.asLanguageLine(),
+        )
     }
 }
+
+/**
+ * Transforms a list of [Language] domain models into a [LanguageLineViewState] UI model.
+ *
+ * This function calculates the progression of each language's weight and creates a
+ * [LanguageLineViewState] to represent the language distribution.
+ */
+private fun List<Language>.asLanguageLine(): LanguageLineViewState? {
+    return if (isNotEmpty()) {
+        // Personal note:
+        // Functional approach (scan, reduce) could have been used here, but this is more readable IMO
+        var lastWeight = 0F
+
+        val progressions = map { language ->
+            LanguageProgressionViewState(
+                color = language.toColor(),
+                startWeight = lastWeight
+            ).also { lastWeight += language.weight }
+        }
+
+        LanguageLineViewState(progressions.toImmutableList())
+    } else {
+        null
+    }
+}
+
+private fun Language.toColor(): LanguageColorViewState = when (val color = color) {
+    is CustomColor -> LanguageColorViewState.CustomColor(color.hexColor)
+    DefaultColor -> LanguageColorViewState.DefaultColor
+}
+
