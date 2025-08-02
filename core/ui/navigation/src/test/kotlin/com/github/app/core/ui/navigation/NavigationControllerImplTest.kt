@@ -14,7 +14,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-
 @OptIn(ExperimentalCoroutinesApi::class)
 class NavigationControllerImplTest {
 
@@ -29,7 +28,7 @@ class NavigationControllerImplTest {
     }
 
     @Test
-    fun `verify navigation event with a new route is emitted`() = runTest{
+    fun `verify navigation event with a new route is emitted`() = runTest {
         val navigationController = NavigationControllerImpl()
 
         navigationController.events.test {
@@ -40,7 +39,7 @@ class NavigationControllerImplTest {
     }
 
     @Test
-    fun `verify navigate back event is emitted`() = runTest{
+    fun `verify navigate back event is emitted`() = runTest {
         val navigationController = NavigationControllerImpl()
 
         navigationController.events.test {

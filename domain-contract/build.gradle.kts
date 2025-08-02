@@ -6,4 +6,3 @@ plugins {
 android {
     namespace = "com.github.app.domain.contract"
 }
-

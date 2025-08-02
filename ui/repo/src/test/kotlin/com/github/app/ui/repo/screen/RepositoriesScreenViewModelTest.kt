@@ -244,7 +244,7 @@ class RepositoriesScreenViewModelTest {
 
         viewModel.viewStateFlow.test(
             advanceUntilIdle = true,
-            skipFirstItems = true
+            skipFirstItems = true,
         ) {
             viewModel.onClickFilterButton(sameFilter)
 

@@ -11,8 +11,6 @@ internal val apolloDataSourceModules = module {
 }.apply {
     includes(
         apolloClientModule,
-        mapperModule
+        mapperModule,
     )
 }
-
-

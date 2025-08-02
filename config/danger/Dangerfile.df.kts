@@ -1,38 +1,28 @@
 import systems.danger.kotlin.danger
 import systems.danger.kotlin.markdown
 import systems.danger.kotlin.message
-import systems.danger.kotlin.models.git.Git
+import systems.danger.kotlin.models.danger.DangerDSL
 import systems.danger.kotlin.models.github.GitHub
 import systems.danger.kotlin.models.github.GitHubCommit
 import systems.danger.kotlin.onGitHub
-import systems.danger.kotlin.warn
 import java.security.MessageDigest
+import java.time.DayOfWeek
+import java.time.LocalDate
+import kotlin.random.Random
 
 danger(args) {
 
-    generateInsights(git, github)
+    generateInsights()
 
     onGitHub {
         notifyBigPR()
 
         notifyAnyWipInPR()
-
-        notifyDraftPR()
     }
 
     notifyApkLink()
-}
 
-/**
- * Notifies if a pull request is a draft.
- *
- * This function checks if the current pull request is a draft. If it is,
- * it posts a message to remind the author to open it before assigning reviewers.
- */
-fun GitHub.notifyDraftPR() {
-    if (pullRequest.isDraft) {
-        message("This PR is a Draft, remember to open it before assigning people.")
-    }
+    notifyFunMessages()
 }
 
 /**
@@ -41,19 +31,19 @@ fun GitHub.notifyDraftPR() {
  *
  * If "WIP" is found, a warning message is posted.
  */
-fun GitHub.notifyAnyWipInPR() {
-    val wipMessage = "WIP"
+private fun GitHub.notifyAnyWipInPR() {
+    val wipMessage = "wip"
 
-    if (pullRequest.title.contains(wipMessage, false)) {
-        warn("PR is classed as Work in Progress")
+    if (pullRequest.title.contains(wipMessage, ignoreCase = true) && !pullRequest.isDraft) {
+        message("PR is classed as Work in Progress")
     }
 
     commits
         .map(GitHubCommit::commit)
-        .filter { it.message.contains(other = wipMessage, ignoreCase = true) }
+        .filter { it.message.contains(wipMessage, ignoreCase = true) }
         .forEach { commit ->
             val commitMessage = commit.sha ?: commit.message
-            warn("Commit `${commitMessage}` is classed as Work in Progress")
+            message("Commit `${commitMessage}` is classed as Work in Progress")
         }
 }
 
@@ -61,9 +51,9 @@ fun GitHub.notifyAnyWipInPR() {
  * Notifies if a pull request has a large number of changes (more than 300 lines added/deleted).
  * This encourages smaller, more manageable pull requests.
  */
-fun GitHub.notifyBigPR() {
+private fun GitHub.notifyBigPR() {
     if ((pullRequest.additions ?: 0) - (pullRequest.deletions ?: 0) > 300) {
-        warn("Big PR, try to keep changes smaller if you can")
+        message("Big PR, try to keep changes smaller if you can")
     }
 }
 
@@ -73,7 +63,7 @@ fun GitHub.notifyBigPR() {
  * This function retrieves the APK path from the "BITRISE_APK_PATH" environment variable
  * and posts a message with a hyperlink to download the APK.
  */
-fun notifyApkLink() {
+private fun notifyApkLink() {
     val apkPath = System.getenv("BITRISE_PUBLIC_INSTALL_PAGE_URL")
     markdown(
         """
@@ -87,10 +77,10 @@ fun notifyApkLink() {
     )
 }
 
-fun generateInsights(git: Git, gitHub: GitHub) {
+private fun DangerDSL.generateInsights() {
     markdown(
-        getInsightReport(
-            gitHub = gitHub,
+        getHtmlModuleOverview(
+            gitHub = github,
             addedFiles = git.createdFiles,
             modifiedFiles = git.modifiedFiles,
             deletedFiles = git.deletedFiles
@@ -113,7 +103,7 @@ fun generateInsights(git: Git, gitHub: GitHub) {
  * @param deletedFiles A list of paths to files that were deleted.
  * @return A string containing the HTML report.
  */
-fun getInsightReport(
+private fun getHtmlModuleOverview(
     gitHub: GitHub,
     addedFiles: List<String>,
     modifiedFiles: List<String>,
@@ -129,8 +119,8 @@ fun getInsightReport(
     return buildString {
         append(
             """
-            # Informations
-            ## Modules modifiés
+            # Information
+            ## Updated Modules
             <table>
             <tr><th></th>
             <th>Added</th>
@@ -205,7 +195,7 @@ private fun List<String>.mapFilesTo(status: Status): List<VersionedFile> {
  * @return A list of [Module] objects, where each module contains files belonging to it.
  *         The list is sorted with the "Other Modules" (if any) at the end.
  */
-fun List<VersionedFile>.mapToModules(): List<Module> {
+private fun List<VersionedFile>.mapToModules(): List<Module> {
     return groupBy { file ->
         file.fullPath
             .takeIf { path -> path.contains("/src/") }
@@ -220,13 +210,13 @@ fun List<VersionedFile>.mapToModules(): List<Module> {
     }.sortedBy { !it.isFallback }
 }
 
-data class Module(
+private data class Module(
     val name: String,
     val files: List<VersionedFile>,
     val isFallback: Boolean,
 )
 
-data class VersionedFile(
+private data class VersionedFile(
     val name: String,
     val fullPath: String,
     val status: Status,
@@ -245,7 +235,7 @@ data class VersionedFile(
             .fold("") { str, it -> str + "%02x".format(it) }
 }
 
-enum class Status {
+private enum class Status {
     Added, Modified, Deleted
 }
 
@@ -260,7 +250,74 @@ enum class Status {
  * @return An HTML `<a>` tag string that links to the file diff on GitHub.
  *         The link text will be the `name` of the file.
  */
-fun VersionedFile.getFileLink(gitHub: GitHub): String {
+private fun VersionedFile.getFileLink(gitHub: GitHub): String {
     val link = gitHub.pullRequest.htmlURL + "/files#diff-" + sha256Path
     return "<a href=\"$link\">$name</a>"
+}
+
+/**
+ * A collection of fun messages to be displayed in the Danger report.
+ */
+private fun DangerDSL.notifyFunMessages() {
+    notifyIfFriday()
+    notifyEstimatedCoffeeItTook()
+    tossACoinToYourDanger()
+}
+
+private fun notifyIfFriday() {
+    if (LocalDate.now().dayOfWeek == DayOfWeek.FRIDAY) {
+        markdown(
+            """
+            🙈 **It's Friday**
+            Are you _sure_ you want to merge this on a Friday?
+            > "Nothing ruins a weekend like a Friday deploy."
+            
+            So, just a reminder to:
+            - 📆 Relax and enjoy your weekend
+            _From your friendly CI assistant 💚_
+            """.trimIndent()
+        )
+    }
+}
+
+private fun tossACoinToYourDanger() {
+
+    val random100 = Random(seed = 1).nextInt(until = 100)
+
+    // Five percent chance of being triggered
+    if (random100 in (0..5)) {
+        val coin = listOf(
+            "🪙 Heads — merge it!",
+            "🪙 Tails — wait for another round."
+        ).random()
+
+        markdown(
+            """
+            🎰 **Merge Decision Coin Flip**  
+            $coin  
+            (_This is not legally binding. Use at your own risk._)
+            """.trimIndent()
+        )
+    }
+}
+
+private fun DangerDSL.notifyEstimatedCoffeeItTook() {
+
+    val random100 = Random(seed = 2).nextInt(until = 100)
+
+    // Five percent chance of being triggered
+    if (random100 in (0..5)) {
+
+        val linesChanged = (github.pullRequest.additions ?: 0) + (github.pullRequest.deletions ?: 0)
+        val estimatedCups = (linesChanged / 80).coerceAtLeast(1)
+
+        markdown(
+            """
+            ☕ **Caffeine Estimation**
+
+            This PR changed $linesChanged lines.
+            - $estimatedCups cup(s) of coffee
+            """.trimIndent()
+        )
+    }
 }

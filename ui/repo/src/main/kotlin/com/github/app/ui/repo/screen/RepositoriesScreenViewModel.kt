@@ -38,7 +38,7 @@ internal class RepositoriesScreenViewModel(
             .collectCatching { result ->
                 result.onSuccess { repositories ->
                     updateViewState {
-                        withRepositories(repositories.map { repository -> repositoryMapper(repository)})
+                        withRepositories(repositories.map { repository -> repositoryMapper(repository) })
                     }
                 }
 

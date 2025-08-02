@@ -22,7 +22,7 @@ private fun buildUiModules(): List<Module> {
     return listOf(uiRepositoryModule).applyForEach {
         includes(
             navigationModule,
-            buildDomainModule()
+            buildDomainModule(),
         )
     }
 }

@@ -1,7 +1,5 @@
 package com.github.app.ui.repo.di
 
-import com.github.app.core.ui.navigation.di.navigationModule
-import com.github.app.domain.di.domainModule
 import com.github.app.ui.repo.mapper.RepositoryViewStateMapper
 import com.github.app.ui.repo.mapper.RepositoryViewStateMapperImpl
 import com.github.app.ui.repo.screen.RepositoriesScreenViewModel

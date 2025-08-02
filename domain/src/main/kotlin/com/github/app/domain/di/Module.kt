@@ -11,7 +11,6 @@ val domainModule = module {
 }.apply {
     includes(
         mapperModule,
-        utilityModule
+        utilityModule,
     )
 }
-

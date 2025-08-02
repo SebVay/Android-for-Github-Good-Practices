@@ -58,7 +58,7 @@ private fun List<Language>.asLanguageLine(): LanguageLineViewState? {
         val progressions = map { language ->
             LanguageProgressionViewState(
                 color = language.toColor(),
-                startWeight = lastWeight
+                startWeight = lastWeight,
             ).also { lastWeight += language.weight }
         }
 
@@ -72,4 +72,3 @@ private fun Language.toColor(): LanguageColorViewState = when (val color = color
     is CustomColor -> LanguageColorViewState.CustomColor(color.hexColor)
     DefaultColor -> LanguageColorViewState.DefaultColor
 }
-

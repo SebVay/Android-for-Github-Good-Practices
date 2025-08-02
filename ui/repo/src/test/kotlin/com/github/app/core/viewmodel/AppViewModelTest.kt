@@ -41,7 +41,7 @@ class AppViewModelTest {
 
         viewModel.viewStateFlow.test(
             advanceUntilIdle = true,
-            skipFirstItems = true
+            skipFirstItems = true,
         ) {
             viewModel.collectCatchingResult shouldBe givenSuccess
         }
@@ -59,12 +59,11 @@ class AppViewModelTest {
 
         viewModel.viewStateFlow.test(
             advanceUntilIdle = true,
-            skipFirstItems = true
+            skipFirstItems = true,
         ) {
             viewModel.collectCatchingResult shouldBe Result.failure(givenException)
         }
     }
-
 
     @Test
     fun `verify updateViewState update the stateFlow accordingly`() = runTest {

@@ -87,15 +87,15 @@ class RepositoryViewStateMapperImplTest {
                     name = givenName1,
                     color = LanguageColor.CustomColor(givenColor1),
                     weight = givenWeight1,
-                    size = 0
+                    size = 0,
                 ),
                 Language(
                     name = givenName2,
                     color = LanguageColor.DefaultColor,
                     weight = givenWeight2,
-                    size = 0
-                )
-            )
+                    size = 0,
+                ),
+            ),
         )
 
         // When
@@ -106,13 +106,13 @@ class RepositoryViewStateMapperImplTest {
             LanguageViewState(
                 name = givenName1,
                 color = LanguageColorViewState.CustomColor(givenColor1),
-                weight = givenWeight1
+                weight = givenWeight1,
             ),
             LanguageViewState(
                 name = givenName2,
                 color = LanguageColorViewState.DefaultColor,
-                weight = givenWeight2
-            )
+                weight = givenWeight2,
+            ),
         )
     }
 
@@ -133,21 +133,21 @@ class RepositoryViewStateMapperImplTest {
                     name = givenName1,
                     color = LanguageColor.CustomColor(givenColor1),
                     weight = givenWeight1,
-                    size = 0
+                    size = 0,
                 ),
                 Language(
                     name = givenName2,
                     color = LanguageColor.DefaultColor,
                     weight = givenWeight2,
-                    size = 0
+                    size = 0,
                 ),
                 Language(
                     name = givenName3,
                     color = LanguageColor.CustomColor(givenColor3),
                     weight = givenWeight3,
-                    size = 0
-                )
-            )
+                    size = 0,
+                ),
+            ),
         )
 
         // When
@@ -158,17 +158,17 @@ class RepositoryViewStateMapperImplTest {
             persistentListOf(
                 LanguageProgressionViewState(
                     color = LanguageColorViewState.CustomColor(hexColor = "#000000"),
-                    startWeight = 0.0f
+                    startWeight = 0.0f,
                 ),
                 LanguageProgressionViewState(
                     color = LanguageColorViewState.DefaultColor,
-                    startWeight = 0.5f
+                    startWeight = 0.5f,
                 ),
                 LanguageProgressionViewState(
                     color = LanguageColorViewState.CustomColor(hexColor = "#FFFFFF"),
-                    startWeight = 0.9f
-                )
-            )
+                    startWeight = 0.9f,
+                ),
+            ),
         )
     }
 }

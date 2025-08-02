@@ -29,7 +29,7 @@ suspend fun <T> StateFlow<T>.test(
 ) {
     test(
         timeout = turbineTimeout,
-        name = turbineName
+        name = turbineName,
     ) {
         testScope.takeIf { advanceUntilIdle }?.advanceUntilIdle()
 
