@@ -136,14 +136,14 @@ private fun getHtmlModuleOverview(
                 module.files
                     .filter { it.status == Status.Added }
                     .forEach {
-                        appendLine("🟢&nbsp;${it.getFileLink(gitHub)}")
+                        appendLine("🟢&nbsp;${it.getFileLink(gitHub)} ")
                     }
             }
             val modifiedColumn = buildString {
                 module.files
                     .filter { it.status == Status.Modified }
                     .forEach {
-                        appendLine("🟡&nbsp;${it.getFileLink(gitHub)}")
+                        appendLine("🟡&nbsp;${it.getFileLink(gitHub)} ")
                     }
             }
 
@@ -151,7 +151,7 @@ private fun getHtmlModuleOverview(
                 module.files
                     .filter { it.status == Status.Deleted }
                     .forEach {
-                        appendLine("🔴&nbsp;${it.getFileLink(gitHub)}")
+                        appendLine("🔴&nbsp;${it.getFileLink(gitHub)} ")
                     }
             }
 
@@ -188,8 +188,8 @@ private fun List<String>.mapFilesTo(status: Status): List<VersionedFile> {
  *
  * This function groups the files by their module name, which is derived from the file's full path.
  * The module name is extracted by taking the part of the path before "/src/" and replacing "/" with ":".
- * If a file's path does not contain "/src/", it is assigned to a fallback module named "Other Modules".
- * The resulting list of modules is sorted so that the "Other Modules" (if present) appears last.
+ * If a file's path does not contain "/src/", it is assigned to a fallback category named "Others".
+ * The resulting list of modules is sorted so that "Others" (if present) appears last.
  *
  * @receiver A list of [VersionedFile] objects to be mapped.
  * @return A list of [Module] objects, where each module contains files belonging to it.
@@ -203,7 +203,7 @@ private fun List<VersionedFile>.mapToModules(): List<Module> {
             ?.replace("/", ":")
     }.map { (name, files) ->
         Module(
-            name = name ?: "Other Modules",
+            name = name ?: "Others",
             files = files,
             isFallback = name != null
         )

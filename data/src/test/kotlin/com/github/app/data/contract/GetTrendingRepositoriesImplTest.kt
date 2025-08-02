@@ -1,4 +1,4 @@
-package com.github.app.data.mapper
+package com.github.app.data.contract
 
 import com.github.app.data.RepositoriesDataSource
 import com.github.app.data.apollo.repo.entity.LanguageEntity

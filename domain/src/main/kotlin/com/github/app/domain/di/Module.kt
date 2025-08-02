@@ -6,8 +6,11 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val domainModules = module {
+val domainModule = module {
     singleOf(::GetTrendingRepositoriesUseCaseImpl) bind GetTrendingRepositoriesUseCase::class
-} +
-    mapperModule +
-    utilityModule
+}.apply {
+    includes(
+        mapperModule,
+        utilityModule,
+    )
+}

@@ -33,9 +33,9 @@ internal sealed class LanguageColorViewState {
     /**
      * Fallback the default color.
      */
-    object DefaultColor : LanguageColorViewState()
+    data object DefaultColor : LanguageColorViewState()
 
-    class CustomColor(val hexColor: String) : LanguageColorViewState()
+    data class CustomColor(val hexColor: String) : LanguageColorViewState()
 }
 
 @Stable

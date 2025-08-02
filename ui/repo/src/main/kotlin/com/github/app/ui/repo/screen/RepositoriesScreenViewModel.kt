@@ -1,5 +1,6 @@
 package com.github.app.ui.repo.screen
 
+import com.github.app.core.ui.navigation.NavigationController
 import com.github.app.core.viewmodel.AppViewModel
 import com.github.app.domain.repo.usecase.GetTrendingRepositoriesUseCase
 import com.github.app.domain.repo.usecase.TimePeriod
@@ -16,9 +17,10 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
 
 internal class RepositoriesScreenViewModel(
-    initialState: RepositoriesScreenViewState,
+    initialState: RepositoriesScreenViewState = RepositoriesScreenViewState.initialState(),
+    private val navigationController: NavigationController,
     private val getTrendingRepositories: GetTrendingRepositoriesUseCase,
-    private val repositoriesMapper: RepositoryViewStateMapper,
+    private val repositoryMapper: RepositoryViewStateMapper,
 ) : AppViewModel<RepositoriesScreenViewState>(initialState),
     RepositoriesScreenInteraction {
 
@@ -31,12 +33,12 @@ internal class RepositoriesScreenViewModel(
             .map { it.filterButtons }
             .distinctUntilChanged()
             .onEach { updateViewState { withRequestLoading() } }
-            .mapNotNull { filters -> filters.findSelectedFilter().toDomain() }
-            .map { filterType -> getTrendingRepositories(filterType).map(repositoriesMapper) }
+            .mapNotNull { filters -> filters.findSelectedFilter() }
+            .map { selectedFilter -> getTrendingRepositories(selectedFilter.toDomain()) }
             .collectCatching { result ->
                 result.onSuccess { repositories ->
                     updateViewState {
-                        withRepositories(repositories)
+                        withRepositories(repositories.map { repository -> repositoryMapper(repository) })
                     }
                 }
 
