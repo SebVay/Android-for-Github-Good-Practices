@@ -2,7 +2,6 @@ package com.github.app.core.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.app.core.ui.navigation.NavigationController
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,12 +10,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.core.context.GlobalContext
 import timber.log.Timber
 
 open class AppViewModel<VS : AppViewState>(
     initialState: VS,
-    val navigationController: NavigationController = getNavigationController(),
 ) : ViewModel() {
 
     private val updatableViewStateFlow: MutableStateFlow<VS> = MutableStateFlow(initialState)
@@ -52,16 +49,4 @@ open class AppViewModel<VS : AppViewState>(
                 .collect(collector)
         }
     }
-}
-
-/**
- * Retrieves the [NavigationController] from Koin.
- *
- * This is mainly used because we want to ease the use for [AppViewModel] subclasses,
- * while letting the opportunity to be overridden and tested.
- *
- * @return The [NavigationController] instance that has been injected through Koin.
- */
-private fun getNavigationController() = with(GlobalContext.get()) {
-    get<NavigationController>()
 }

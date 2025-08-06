@@ -6,7 +6,11 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-internal val dataSourceModule = module {
+internal val apolloDataSourceModules = module {
     singleOf(::ApolloRepositoryDataSourceImpl) bind ApolloRepositoryDataSource::class
-} +
-    mapperModule
+}.apply {
+    includes(
+        apolloClientModule,
+        mapperModule,
+    )
+}
