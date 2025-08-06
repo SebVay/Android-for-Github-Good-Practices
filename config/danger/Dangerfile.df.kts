@@ -2,6 +2,7 @@ import systems.danger.kotlin.danger
 import systems.danger.kotlin.markdown
 import systems.danger.kotlin.message
 import systems.danger.kotlin.models.danger.DangerDSL
+import systems.danger.kotlin.models.danger.Utils
 import systems.danger.kotlin.models.github.GitHub
 import systems.danger.kotlin.models.github.GitHubCommit
 import systems.danger.kotlin.onGitHub
@@ -9,6 +10,8 @@ import java.security.MessageDigest
 import java.time.DayOfWeek
 import java.time.LocalDate
 import kotlin.random.Random
+
+private val projectRoot = "../../"
 
 danger(args) {
 
@@ -80,7 +83,6 @@ private fun notifyApkLink() {
 private fun DangerDSL.generateInsights() {
     markdown(
         getHtmlModuleOverview(
-            gitHub = github,
             addedFiles = git.createdFiles,
             modifiedFiles = git.modifiedFiles,
             deletedFiles = git.deletedFiles
@@ -103,47 +105,61 @@ private fun DangerDSL.generateInsights() {
  * @param deletedFiles A list of paths to files that were deleted.
  * @return A string containing the HTML report.
  */
-private fun getHtmlModuleOverview(
-    gitHub: GitHub,
+private fun DangerDSL.getHtmlModuleOverview(
     addedFiles: List<String>,
     modifiedFiles: List<String>,
     deletedFiles: List<String>,
 ): String {
+    val github = github()
     val modules = (
-        addedFiles.mapFilesTo(Status.Added) +
-            modifiedFiles.mapFilesTo(Status.Modified) +
-            deletedFiles.mapFilesTo(Status.Deleted)
+        addedFiles.mapFilesTo(Status.Added, utils) +
+            modifiedFiles.mapFilesTo(Status.Modified, utils) +
+            deletedFiles.mapFilesTo(Status.Deleted, utils)
         )
         .mapToModules()
 
     return buildString {
-        append(
+
+        val versionedFiles = modules.flatMap(Module::files)
+
+        val totalAdded = versionedFiles
+            .filter { it.status == Status.Added }
+            .sumOf { it.insertions ?: 0 }
+
+        val totalDeleted = versionedFiles
+            .filter { it.status == Status.Deleted }
+            .sumOf { it.deletions ?: 0 }
+
+        val added = "\$\\color{Green}{\\textsf{+$totalAdded}}\$"
+        val deleted = "\$\\color{Red}{\\textsf{-$totalDeleted}}\$"
+
+        appendLine(
             """
             # Information
             ## Updated Modules
             <table>
-            <tr><th></th>
-            <th>Added</th>
-            <th>Modified</th>
-            <th>Deleted</th>
-            </tr>
+                <tr>
+                    <th></th>
+                    <th>Added ($added)</th>
+                    <th>Modified </th>
+                    <th>Deleted ($deleted)</th>
+                </tr>
             """.trimIndent()
         )
 
         modules.forEach { module ->
-
             val addedColumn = buildString {
                 module.files
                     .filter { it.status == Status.Added }
                     .forEach {
-                        appendLine("🟢&nbsp;${it.getFileLink(gitHub)} ")
+                        appendLine("🟢&nbsp;${it.getFileLink(github)}<br>")
                     }
             }
             val modifiedColumn = buildString {
                 module.files
                     .filter { it.status == Status.Modified }
-                    .forEach {
-                        appendLine("🟡&nbsp;${it.getFileLink(gitHub)} ")
+                    .forEach { versionedFile ->
+                        append("🟡&nbsp;${versionedFile.getFileLink(github)}<br>")
                     }
             }
 
@@ -151,17 +167,17 @@ private fun getHtmlModuleOverview(
                 module.files
                     .filter { it.status == Status.Deleted }
                     .forEach {
-                        appendLine("🔴&nbsp;${it.getFileLink(gitHub)} ")
+                        appendLine("🔴&nbsp;${it.getFileLink(github)}<br>")
                     }
             }
 
             appendLine(
                 """
                 <tr>
-                <td><div style="display: inline-block;"><b>${module.name}</b></div></td>
-                <td>$addedColumn</td>
-                <td>$modifiedColumn</td>
-                <td>$deletedColumn</td>
+                    <td><div style="display: inline-block;"><b>${module.name}</b></div></td>
+                    <td>$addedColumn</td>
+                    <td>$modifiedColumn</td>
+                    <td>$deletedColumn</td>
                 </tr>
             """.trimIndent()
             )
@@ -171,17 +187,32 @@ private fun getHtmlModuleOverview(
     }
 }
 
-private fun List<String>.mapFilesTo(status: Status): List<VersionedFile> {
+private fun List<String>.mapFilesTo(status: Status, utils: Utils): List<VersionedFile> {
     return map { filePath ->
         val fullPath = filePath.removePrefix("'a/' --dst-prefix='b/'")
         val fileName = fullPath.substringAfterLast("/")
+
+        val regex =
+            """1 file changed, (?:(\d+)\s+insertions\(\+\))?(?:,\s*)?(?:(\d+)\s+deletions\(-\))?""".toRegex()
+        val diffShortStat = utils.exec("git diff --shortstat origin/main -- $projectRoot$fullPath")
+
+        val (insertions, deletions) = regex.find(diffShortStat).let { match ->
+            val insertions = match?.groups?.get(1)?.value?.toIntOrNull()
+            val deletions = match?.groups?.get(2)?.value?.toIntOrNull()
+
+            insertions to deletions
+        }
+
         VersionedFile(
             name = fileName,
             fullPath = fullPath,
+            insertions = insertions,
+            deletions = deletions,
             status = status
         )
     }
 }
+
 
 /**
  * Maps a list of [VersionedFile] objects to a list of [Module] objects.
@@ -220,6 +251,8 @@ private data class VersionedFile(
     val name: String,
     val fullPath: String,
     val status: Status,
+    val insertions: Int?,
+    val deletions: Int?,
 ) {
     /**
      * Calculates the SHA-256 hash of the file's full path.
@@ -234,6 +267,7 @@ private data class VersionedFile(
             .digest(fullPath.toByteArray())
             .fold("") { str, it -> str + "%02x".format(it) }
 }
+
 
 private enum class Status {
     Added, Modified, Deleted
@@ -250,8 +284,8 @@ private enum class Status {
  * @return An HTML `<a>` tag string that links to the file diff on GitHub.
  *         The link text will be the `name` of the file.
  */
-private fun VersionedFile.getFileLink(gitHub: GitHub): String {
-    val link = gitHub.pullRequest.htmlURL + "/files#diff-" + sha256Path
+private fun VersionedFile.getFileLink(gitHub: GitHub?): String {
+    val link = gitHub?.pullRequest?.htmlURL.orEmpty() + "/files#diff-" + sha256Path
     return "<a href=\"$link\">$name</a>"
 }
 
@@ -321,3 +355,5 @@ private fun DangerDSL.notifyEstimatedCoffeeItTook() {
         )
     }
 }
+
+private fun DangerDSL.github(): GitHub? = takeIf { onGitHub }?.github

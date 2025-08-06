@@ -12,6 +12,8 @@ ARG BITRISE_PUBLIC_INSTALL_PAGE_URL
 WORKDIR /code
 COPY . /code
 
+RUN git fetch
+
 WORKDIR /code/config/danger
 
 RUN danger-kotlin ci
