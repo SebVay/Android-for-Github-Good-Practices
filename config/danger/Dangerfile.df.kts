@@ -114,7 +114,7 @@ private fun DangerDSL.getHtmlModuleOverview(
     val modules = (
         addedFiles.mapFilesTo(Status.Added, utils) +
             modifiedFiles.mapFilesTo(Status.Modified, utils) +
-            deletedFiles.mapFilesTo(Status.Deleted, utils)
+            deletedFiles.mapFilesTo(Status.Removed, utils)
         )
         .mapToModules()
 
@@ -122,16 +122,9 @@ private fun DangerDSL.getHtmlModuleOverview(
 
         val versionedFiles = modules.flatMap(Module::files)
 
-        val totalAdded = versionedFiles
-            .filter { it.status == Status.Added }
-            .sumOf { it.insertions ?: 0 }
-
-        val totalDeleted = versionedFiles
-            .filter { it.status == Status.Deleted }
-            .sumOf { it.deletions ?: 0 }
-
-        val added = "\$\\color{Green}{\\textsf{+$totalAdded}}\$"
-        val deleted = "\$\\color{Red}{\\textsf{-$totalDeleted}}\$"
+        val addedModuleText = getAddedModuleText(versionedFiles)
+        val modifiedModuleText = getModifiedModuleText(versionedFiles)
+        val deletedModuleText = getDeletedModuleText(versionedFiles)
 
         appendLine(
             """
@@ -140,9 +133,9 @@ private fun DangerDSL.getHtmlModuleOverview(
             <table>
                 <tr>
                     <th></th>
-                    <th>Added ($added)</th>
-                    <th>Modified </th>
-                    <th>Deleted ($deleted)</th>
+                    <th>$addedModuleText</th>
+                    <th>$modifiedModuleText</th>
+                    <th>$deletedModuleText</th>
                 </tr>
             """.trimIndent()
         )
@@ -165,7 +158,7 @@ private fun DangerDSL.getHtmlModuleOverview(
 
             val deletedColumn = buildString {
                 module.files
-                    .filter { it.status == Status.Deleted }
+                    .filter { it.status == Status.Removed }
                     .forEach {
                         appendLine("🔴&nbsp;${it.getFileLink(github)}<br>")
                     }
@@ -270,7 +263,7 @@ private data class VersionedFile(
 
 
 private enum class Status {
-    Added, Modified, Deleted
+    Added, Modified, Removed
 }
 
 /**
@@ -357,3 +350,77 @@ private fun DangerDSL.notifyEstimatedCoffeeItTook() {
 }
 
 private fun DangerDSL.github(): GitHub? = takeIf { onGitHub }?.github
+
+/**
+ * Generates a string indicating the total number of added lines, formatted in green.
+ *
+ * Example output: "Added (+10)"
+ */
+private fun getAddedModuleText(versionedFiles: List<VersionedFile>): String {
+    val totalAdded = "+" + getInsertedLines(versionedFiles, Status.Added)
+
+    return buildString {
+        append("Added (")
+        append(totalAdded.greenFlavor())
+        append(")")
+    }
+}
+
+/**
+ * Generates a string summarizing the modified files, including the total lines added and deleted.
+ *
+ * Example output: "Modified (+10 / -5)"
+ */
+private fun getModifiedModuleText(versionedFiles: List<VersionedFile>): String {
+    val totalAdded = "+" + getInsertedLines(versionedFiles, Status.Modified)
+    val totalDeleted = "-" + getDeletedLines(versionedFiles, Status.Modified)
+
+    return buildString {
+        append("Modified (")
+        append(totalAdded.greenFlavor())
+        append(" / ")
+        append(totalDeleted.redFlavor())
+        append(")")
+    }
+}
+
+/**
+ * Generates a string summarizing the total number of deleted lines in red.
+ *
+ * Example output: "Deleted (-42)"
+ */
+private fun getDeletedModuleText(versionedFiles: List<VersionedFile>): String {
+    val totalDeleted = "-" + getDeletedLines(versionedFiles, Status.Removed)
+
+    return buildString {
+        append("Deleted (")
+        append(totalDeleted.redFlavor())
+        append(")")
+    }
+}
+
+/**
+ * Calculates the total number of inserted lines for files with a specific status.
+ */
+private fun getInsertedLines(versionedFiles: List<VersionedFile>, status: Status): Int = versionedFiles
+    .filter { it.status == status }
+    .sumOf { it.insertions ?: 0 }
+
+/**
+ * Calculates the total number of deleted lines for files with a specific status.
+ */
+private fun getDeletedLines(versionedFiles: List<VersionedFile>, status: Status) = versionedFiles
+    .filter { it.status == status }
+    .sumOf { it.deletions ?: 0 }
+
+/**
+ * Formats the string to be displayed in green color using LaTeX-like syntax.
+ * This syntax is compatible with Github markdown.
+ */
+private fun String.greenFlavor(): String = "\$\\color{Green}{\\textsf{$this}}\$"
+
+/**
+ * Formats the string to be displayed in red color using LaTeX-like syntax.
+ * This syntax is compatible with Github markdown.
+ */
+private fun String.redFlavor() = "\$\\color{Red}{\\textsf{${this}}}\$"
