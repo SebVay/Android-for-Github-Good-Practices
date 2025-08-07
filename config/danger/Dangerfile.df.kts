@@ -122,21 +122,16 @@ private fun DangerDSL.getHtmlModuleOverview(
 
         val versionedFiles = modules.flatMap(Module::files)
 
-        val addedModuleText = getAddedModuleText(versionedFiles)
-        val modifiedModuleText = getModifiedModuleText(versionedFiles)
-        val deletedModuleText = getDeletedModuleText(versionedFiles)
+        val addedModuleColumn = addedModuleColumn(versionedFiles)
+        val modifiedModuleColumn = modifiedModuleColumn(versionedFiles)
+        val deletedModuleColumn = deletedModuleColumn(versionedFiles)
 
-        appendLine(
+        append(
             """
             # Information
             ## Updated Modules
             <table>
-                <tr>
-                    <th></th>
-                    <th>$addedModuleText</th>
-                    <th>$modifiedModuleText</th>
-                    <th>$deletedModuleText</th>
-                </tr>
+                <tr><th></th>${addedModuleColumn.orEmpty()}${modifiedModuleColumn.orEmpty()}${deletedModuleColumn.orEmpty()}</tr>
             """.trimIndent()
         )
 
@@ -145,35 +140,42 @@ private fun DangerDSL.getHtmlModuleOverview(
                 module.files
                     .filter { it.status == Status.Added }
                     .forEach {
-                        appendLine("🟢&nbsp;${it.getFileLink(github)}<br>")
+                        append("🟢&nbsp;${it.getFileLink(github)}<br>")
                     }
+
+                if (addedModuleColumn != null) {
+                    insert(0, "<td>")
+                    append("</td>")
+                }
             }
+
             val modifiedColumn = buildString {
                 module.files
                     .filter { it.status == Status.Modified }
                     .forEach { versionedFile ->
                         append("🟡&nbsp;${versionedFile.getFileLink(github)}<br>")
                     }
+
+                if (modifiedModuleColumn != null) {
+                    insert(0, "<td>")
+                    append("</td>")
+                }
             }
 
             val deletedColumn = buildString {
                 module.files
                     .filter { it.status == Status.Removed }
                     .forEach {
-                        appendLine("🔴&nbsp;${it.getFileLink(github)}<br>")
+                        append("🔴&nbsp;${it.getFileLink(github)}<br>")
                     }
+
+                if (deletedModuleColumn != null) {
+                    insert(0, "<td>")
+                    append("</td>")
+                }
             }
 
-            appendLine(
-                """
-                <tr>
-                    <td><div style="display: inline-block;"><b>${module.name}</b></div></td>
-                    <td>$addedColumn</td>
-                    <td>$modifiedColumn</td>
-                    <td>$deletedColumn</td>
-                </tr>
-            """.trimIndent()
-            )
+            append("<tr><td><div style=\"display: inline-block;\"><b>${module.name}</b></div></td>$addedColumn$modifiedColumn$deletedColumn</tr>")
         }
 
         appendLine("</table>")
@@ -356,14 +358,21 @@ private fun DangerDSL.github(): GitHub? = takeIf { onGitHub }?.github
  *
  * Example output: "Added (+10)"
  */
-private fun getAddedModuleText(versionedFiles: List<VersionedFile>): String {
-    val totalAdded = "+" + getInsertedLines(versionedFiles, Status.Added)
+private fun addedModuleColumn(versionedFiles: List<VersionedFile>): String? {
+    val hasFile = versionedFiles.any { it.status == Status.Added }
 
-    return buildString {
-        append("Added (")
-        append(totalAdded.greenFlavor())
-        append(")")
-    }
+    return if (hasFile) {
+
+        val totalAdded = "+" + getInsertedLines(versionedFiles, Status.Added)
+
+        buildString {
+            append("<th>")
+            append("Added (")
+            append(totalAdded.greenFlavor())
+            append(")")
+            append("</th>")
+        }
+    } else null
 }
 
 /**
@@ -371,17 +380,22 @@ private fun getAddedModuleText(versionedFiles: List<VersionedFile>): String {
  *
  * Example output: "Modified (+10 / -5)"
  */
-private fun getModifiedModuleText(versionedFiles: List<VersionedFile>): String {
+private fun modifiedModuleColumn(versionedFiles: List<VersionedFile>): String? {
+    val hasFile = versionedFiles.any { it.status == Status.Modified }
     val totalAdded = "+" + getInsertedLines(versionedFiles, Status.Modified)
     val totalDeleted = "-" + getDeletedLines(versionedFiles, Status.Modified)
 
-    return buildString {
-        append("Modified (")
-        append(totalAdded.greenFlavor())
-        append(" / ")
-        append(totalDeleted.redFlavor())
-        append(")")
-    }
+    return if (hasFile) {
+        buildString {
+            append("<th>")
+            append("Modified (")
+            append(totalAdded.greenFlavor())
+            append(" / ")
+            append(totalDeleted.redFlavor())
+            append(")")
+            append("</th>")
+        }
+    } else null
 }
 
 /**
@@ -389,14 +403,20 @@ private fun getModifiedModuleText(versionedFiles: List<VersionedFile>): String {
  *
  * Example output: "Deleted (-42)"
  */
-private fun getDeletedModuleText(versionedFiles: List<VersionedFile>): String {
-    val totalDeleted = "-" + getDeletedLines(versionedFiles, Status.Removed)
+private fun deletedModuleColumn(versionedFiles: List<VersionedFile>): String? {
+    val hasFile = versionedFiles.any { it.status == Status.Removed }
 
-    return buildString {
-        append("Deleted (")
-        append(totalDeleted.redFlavor())
-        append(")")
-    }
+    return if (hasFile) {
+        val totalDeleted = "-" + getDeletedLines(versionedFiles, Status.Removed)
+
+        buildString {
+            append("<th>")
+            append("Deleted (")
+            append(totalDeleted.redFlavor())
+            append(")")
+            append("</th>")
+        }
+    } else null
 }
 
 /**
@@ -424,3 +444,4 @@ private fun String.greenFlavor(): String = "\$\\color{Green}{\\textsf{$this}}\$"
  * This syntax is compatible with Github markdown.
  */
 private fun String.redFlavor() = "\$\\color{Red}{\\textsf{${this}}}\$"
+
