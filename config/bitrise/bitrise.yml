@@ -1,0 +1,132 @@
+---
+format_version: '18'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: android
+app:
+  envs:
+  - TEST_SHARD_COUNT: 2
+  - PROJECT_LOCATION: "./"
+    opts:
+      is_expand: false
+  - MODULE: app
+    opts:
+      is_expand: false
+pipelines: {}
+workflows:
+  Build_Debug_APK:
+    summary: Run your Android unit tests and create an APK file to install your app
+      on a device or share it with your team.
+    steps:
+    - git-clone@8: {}
+    - install-missing-android-tools@3:
+        inputs:
+        - gradlew_path: "$PROJECT_LOCATION/gradlew"
+    - change-android-versioncode-and-versionname@1:
+        inputs:
+        - build_gradle_path: "$PROJECT_LOCATION/$MODULE/build.gradle.kts"
+    - android-build@1:
+        inputs:
+        - project_location: "$PROJECT_LOCATION"
+        - module: "$MODULE"
+        - variant: debug
+        - cache_level: none
+        - arguments: "-Pgithub.token=$GITHUB_TOKEN"
+        title: Build APK
+  run_instrumented_tests:
+    summary: Run your Android instrumented tests and get the test report.
+    description: The workflow will first clone your Git repository, cache your
+      Gradle dependencies, install Android tools, run your Android instrumented
+      tests and save the test report.
+    steps:
+    - git-clone@8: {}
+    - restore-gradle-cache@2: {}
+    - install-missing-android-tools@3:
+        inputs:
+        - gradlew_path: "$PROJECT_LOCATION/gradlew"
+    - avd-manager@2: {}
+    - wait-for-android-emulator@1: {}
+    - gradle-runner@3:
+        inputs:
+        - gradlew_path: "$PROJECT_LOCATION/gradlew"
+        - gradle_task: |-
+            connectedAndroidTest \
+              -Pandroid.testInstrumentationRunnerArguments.numShards=$BITRISE_IO_PARALLEL_TOTAL \
+              -Pandroid.testInstrumentationRunnerArguments.shardIndex=$BITRISE_IO_PARALLEL_INDEX
+    - save-gradle-cache@1: {}
+    - deploy-to-bitrise-io@2: {}
+  DangerBot:
+    summary: Run your Android unit tests and get the test report.
+    description: The workflow will first clone your Git repository, cache your
+      Gradle dependencies, install Android tools, run your Android unit tests
+      and save the test report.
+    steps:
+    - script@1:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+            set -o pipefail
+            # debug log
+            set -x
+
+            docker build \
+              --build-arg BITRISE_IO=$BITRISE_IO \
+              --build-arg BITRISEIO_GIT_REPOSITORY_OWNER=$BITRISEIO_GIT_REPOSITORY_OWNER \
+              --build-arg BITRISEIO_GIT_REPOSITORY_SLUG=$BITRISEIO_GIT_REPOSITORY_SLUG \
+              --build-arg BITRISE_PULL_REQUEST=$BITRISE_PULL_REQUEST \
+              --build-arg BITRISE_BUILD_URL=$BITRISE_BUILD_URL \
+              --build-arg BITRISE_GIT_COMMIT=$BITRISE_GIT_COMMIT \
+              --build-arg DANGER_GITHUB_API_TOKEN=$DANGER_GITHUB_API_TOKEN \
+              --build-arg BITRISE_PUBLIC_INSTALL_PAGE_URL=$BITRISE_PUBLIC_INSTALL_PAGE_URL \
+              -f config/danger/ci/Dockerfile -t local-danger-kotlin .
+        title: Launch Docker & DangerBot
+  Save_Gradle_Cache_And_Deploy_Artifacts:
+    summary: Run your Android unit tests and get the test report.
+    description: The workflow will first clone your Git repository, cache your
+      Gradle dependencies, install Android tools, run your Android unit tests
+      and save the test report.
+    steps:
+    - save-gradle-cache@1: {}
+    - deploy-to-bitrise-io@2: {}
+  Setup_Git_And_Cache:
+    description: The workflow will first clone your Git repository, & import the
+      gradle cache
+    steps:
+    - git-clone@8: {}
+    - restore-gradle-cache@2: {}
+    - install-missing-android-tools@3:
+        inputs:
+        - gradlew_path: "$PROJECT_LOCATION/gradlew"
+    summary: Setup Git and import Gradle Cache
+  Run_Code_Quality_Unit_Tests:
+    summary: Run your Android unit tests and get the test report.
+    description: The workflow will first clone your Git repository, cache your
+      Gradle dependencies, install Android tools, run your Android unit tests
+      and save the test report.
+    steps:
+    - gradle-runner@3:
+        inputs:
+        - gradle_task: codeQualityCheck
+        - gradlew_path: "./gradlew"
+        title: Code Quality Checks
+    - android-unit-test@1:
+        inputs:
+        - project_location: "$PROJECT_LOCATION"
+        - variant: Debug
+        - cache_level: none
+  Workflow_Pull_Request:
+    after_run:
+    - Setup_Git_And_Cache
+    - Run_Code_Quality_Unit_Tests
+    - Build_Debug_APK
+    - Save_Gradle_Cache_And_Deploy_Artifacts
+    - DangerBot
+    triggers:
+      pull_request:
+      - target_branch: main
+meta:
+  bitrise.io:
+    stack: linux-docker-android-22.04
+    machine_type_id: standard
